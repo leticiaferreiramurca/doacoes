@@ -26,6 +26,14 @@ Entrega 1/3: Desenvolver a especificaçao inicial do projeto:
     
     Diagrama de classes
 
+- Post (create announcement to donate products)
+- User
+- Messages
+- Product
+- Donation
+- Requirements (Requirements to receive donation)
+- Comunity*
+
 ** Entregar o link do github e a documentaçao no arquivo README.md
 
 Trabalho em grupo. Entregar através do link do GitHub e mencionar os nomes dos participantes. Todos os membros do grupo precisam responder o exercício para não ficar como exercício pendente no class.
@@ -38,5 +46,6 @@ Maria Luiza Ferreira,
 Igor Rhamon,
 Igor França,
 Gesiel Freitas
+
 
 
