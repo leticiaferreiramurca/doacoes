@@ -32,5 +32,11 @@ Trabalho em grupo. Entregar através do link do GitHub e mencionar os nomes dos 
 
 ** Data de entrega: 03/08/2022 **
 
+Grupo:
+Letícia Ferreira
+Maria Luiza Ferreira 
+Igor Rhamon
+Igor França
+Gesiel Freitas
 
 
