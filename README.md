@@ -1,8 +1,6 @@
-# doacoes
-Marketplace de doações
+# Marketplace de doações
 
 
-Enunciado
 
 Projeto do modulo Programaçao WEB II.
 
@@ -12,7 +10,7 @@ Entrega 1/3: Desenvolver a especificaçao inicial do projeto:
 
     Tema do projeto:
     
-    *Marketplace de doações*
+    ## Marketplace de doações
     
     Funcionalidades
     
