@@ -1,12 +1,10 @@
 # Marketplace de doações
 
-
-
-Projeto do modulo Programaçao WEB II.
+Projeto do modulo Programação WEB II.
 
 Projeto: API com arquitetura RESTful. Utilizar Spring boot ou Quarkus.
 
-Entrega 1/3: Desenvolver a especificaçao inicial do projeto:
+Entrega 1/3: Desenvolver a especificação inicial do projeto:
 
     Tema do projeto:
     
@@ -32,13 +30,13 @@ Entrega 1/3: Desenvolver a especificaçao inicial do projeto:
 - Product
 - Donation
 - Requirements (Requirements to receive donation)
-- Comunity*
+- Community*
 
-** Entregar o link do github e a documentaçao no arquivo README.md
+** Entregar o link do github e a documentação no arquivo README.md
 
 Trabalho em grupo. Entregar através do link do GitHub e mencionar os nomes dos participantes. Todos os membros do grupo precisam responder o exercício para não ficar como exercício pendente no class.
 
-** Data de entrega: 03/08/2022 **
+**Data de entrega: 03/08/2022**
 
 Grupo:
 Letícia Ferreira,
@@ -46,6 +44,3 @@ Maria Luiza Ferreira,
 Igor Rhamon,
 Igor França,
 Gesiel Freitas
-
-
-
