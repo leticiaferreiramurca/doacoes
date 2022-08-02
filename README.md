@@ -23,6 +23,8 @@ Entrega 1/3: Desenvolver a especificação inicial do projeto:
 
     
     Diagrama de classes
+    
+    ![Diagrama de Classe](/images/doacoes_class_diagram.png)
 
 - Post (create announcement to donate products)
 - User
