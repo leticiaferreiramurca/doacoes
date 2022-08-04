@@ -1,7 +1,7 @@
 package bb.com.donation.controller;
 
 
-import io.swagger.v3.oas.annotations.Operation;
+import bb.com.donation.service.PersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class PersonController {
 
 
+    final PersonService personService;
 
-    @Operation(summary = "Lista todos os produtos")
+    public PersonController(PersonService personService) {
+        this.personService = personService;
+    }
+
+
+
     @GetMapping("/teste")
     public String teste() {
         return "teste";
     }
+
 }
