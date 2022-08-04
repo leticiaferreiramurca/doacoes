@@ -12,7 +12,7 @@ public class SwaggerConfig {
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Pedidos Compras API")
+                        .title("Doações API")
                         .description("Lets Code - Banco do Brasil")
                         .version("v0.0.1")
                 );
