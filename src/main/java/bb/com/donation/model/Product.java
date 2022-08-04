@@ -1,33 +1,17 @@
 package bb.com.donation.model;
 
+import bb.com.donation.enums.ConditionType;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "product")
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "person_owner_id")
-    private Person personOwner;
-
-    public Person getPersonOwner() {
-        return personOwner;
-    }
-
-    public void setPersonOwner(Person personOwner) {
-        this.personOwner = personOwner;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
 }
