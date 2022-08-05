@@ -1,4 +1,4 @@
-package bb.com.donation.service;
+package bb.com.donation.service.impl;
 
 import org.springframework.stereotype.Service;
 

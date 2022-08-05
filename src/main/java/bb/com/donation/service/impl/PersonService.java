@@ -1,7 +1,8 @@
-package bb.com.donation.service;
+package bb.com.donation.service.impl;
 
 import bb.com.donation.model.Person;
 import bb.com.donation.repository.PersonRepository;
+import bb.com.donation.service.PersonServiceInterface;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
