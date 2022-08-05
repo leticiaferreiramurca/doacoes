@@ -2,14 +2,14 @@ package bb.com.donation.service.impl;
 
 import bb.com.donation.model.Person;
 import bb.com.donation.repository.PersonRepository;
-import bb.com.donation.service.PersonServiceInterface;
-import org.springframework.stereotype.Service;
+import bb.com.donation.service.ServiceInterface;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
-@Service
-public class PersonService implements PersonServiceInterface {
+@org.springframework.stereotype.Service
+public class PersonService implements ServiceInterface {
 
     PersonRepository personRepository;
 
@@ -29,5 +29,9 @@ public class PersonService implements PersonServiceInterface {
     @Override
     public Person getById(Long id) {
         return personRepository.findById(id).orElseThrow(() -> new RuntimeException("Person not found"));
+    }
+
+    public List<Person> getAllPersons() {
+        return personRepository.findAll();
     }
 }
