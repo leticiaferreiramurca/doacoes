@@ -1,12 +1,15 @@
 package bb.com.donation.model;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "community")
-public class Community {
+public class Community  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -19,7 +22,7 @@ public class Community {
     @JoinColumn(name = "person_owner_id")
     private Person personOwner;
 
-    @OneToMany(mappedBy = "community_id", orphanRemoval = true)
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Product> products = new LinkedHashSet<>();
 
     public Set<Product> getProducts() {
@@ -54,4 +57,22 @@ public class Community {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Community community = (Community) o;
+        return id != null && Objects.equals(id, community.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ")";
+    }
 }
