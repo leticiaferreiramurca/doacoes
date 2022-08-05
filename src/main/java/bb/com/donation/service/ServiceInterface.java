@@ -4,6 +4,6 @@ import bb.com.donation.model.Person;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface PersonServiceInterface {
+public interface ServiceInterface {
     Person getById(Long id);
 }
