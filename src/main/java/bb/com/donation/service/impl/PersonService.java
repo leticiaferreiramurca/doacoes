@@ -31,7 +31,16 @@ public class PersonService implements ServiceInterface {
         return personRepository.findById(id).orElseThrow(() -> new RuntimeException("Person not found"));
     }
 
+    @Override
+    public void delete(Long id) {
+        personRepository.deleteById(id);
+    }
+
     public List<Person> getAllPersons() {
         return personRepository.findAll();
+    }
+
+    public Person getByName(String name) {
+        return personRepository.findByName(name).orElseThrow(() -> new RuntimeException("Person not found"));
     }
 }
