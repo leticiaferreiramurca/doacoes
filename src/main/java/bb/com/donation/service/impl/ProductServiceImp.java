@@ -1,11 +1,13 @@
 package bb.com.donation.service.impl;
 
+import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Product;
 import bb.com.donation.repository.ProductRepository;
 import bb.com.donation.service.ProductService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
+
 @Service
 public class ProductServiceImp implements ProductService {
 
@@ -22,7 +24,7 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public Product getById(Long id) {
-        return productRepository.findById (id).orElse (null);
+        return productRepository.findById (id).orElseThrow (() -> new ValidacaoException("Produto não encontrado"));
     }
 
     @Override
