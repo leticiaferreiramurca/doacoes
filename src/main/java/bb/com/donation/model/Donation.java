@@ -1,5 +1,6 @@
 package bb.com.donation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -15,11 +16,35 @@ public class Donation {
     private Long id;
 
     @Column(name = "created_at")
+    @JsonIgnore
     private LocalDate createdAt;
 
     @ManyToOne
     @JoinColumn(name = "requeriment_id")
     private Requeriment requerimentId;
+
+    @Column(name = "name", nullable = false, length = 100)
+    private String name;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "person_owner_id", nullable = false)
+    private Person personOwner;
+
+    public Person getPersonOwner() {
+        return personOwner;
+    }
+
+    public void setPersonOwner(Person personOwner) {
+        this.personOwner = personOwner;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Requeriment getRequerimentId() {
         return requerimentId;

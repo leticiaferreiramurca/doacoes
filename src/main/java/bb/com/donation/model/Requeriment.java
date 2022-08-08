@@ -1,5 +1,7 @@
 package bb.com.donation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -14,6 +16,7 @@ public class Requeriment {
     private Long id;
 
     @Column(name = "created_at")
+    @JsonIgnore
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "requerimentId", orphanRemoval = true)

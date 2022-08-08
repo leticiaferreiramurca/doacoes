@@ -14,4 +14,6 @@ public interface DonationService  {
     Donation getById(Long id);
 
     List<Donation> getAll();
+
+    Donation getByName(String name);
 }

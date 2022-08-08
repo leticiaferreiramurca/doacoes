@@ -1,6 +1,7 @@
 package bb.com.donation.service.impl;
 
 
+import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Donation;
 
 import bb.com.donation.repository.DonationRepository;
@@ -32,6 +33,10 @@ public class DonationServiceImp implements DonationService {
         return donationRepository.findAll();
     }
 
+    @Override
+    public Donation getByName(String name) {
+        return donationRepository.findByName(name).orElseThrow (() -> new ValidacaoException ("Não foi encontrado nenhuma doação com o nome " + name));
+    }
 
 
 }
