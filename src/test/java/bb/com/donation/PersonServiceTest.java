@@ -51,12 +51,12 @@ class PersonServiceTest {
 
         Person newPerson = new Person(null, "Igor");
         Person savePerson = personController.save(newPerson).getBody ();
-
+        Long id = savePerson.getId();
         personController.delete(savePerson.getId());
         try {
             personController.getById(savePerson.getId());
         } catch (Exception e) {
-            assertThatThrownBy(() -> personController.getById(savePerson.getId()))
+            assertThatThrownBy(() -> personController.getById(id))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessageContaining("Não foi encontrado nenhum usuário com o id "+ 1L);
         }
