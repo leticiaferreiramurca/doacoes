@@ -1,9 +1,6 @@
 package bb.com.donation.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,13 +8,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString(onlyExplicitlyIncluded = true)
 @Entity
-public class Person  {
+public class Person {
+    @ToString.Include
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @ToString.Include
     @Column(name = "name", length = 100)
     private String name;
 

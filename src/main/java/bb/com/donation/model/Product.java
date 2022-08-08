@@ -20,7 +20,7 @@ public class Product {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name", nullable = true, length = 100)
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -33,6 +33,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "community_id")
     private Community community;
+
+    @Column(name = "is_valid")
+    private Boolean isValid;
 
     @Override
     public boolean equals(Object o) {
