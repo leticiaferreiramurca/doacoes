@@ -1,11 +1,13 @@
 package bb.com.donation;
 
 import bb.com.donation.controller.PersonController;
-import bb.com.donation.dto.PersonDTO;
 import bb.com.donation.model.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -21,8 +23,7 @@ class PersonServiceTest {
     @Test
     void savePersonTest() {
         Person newPerson = new Person( 1L,"Igor");
-        PersonDTO personDTO = new PersonDTO(newPerson.getId (), newPerson.getName ());
-        personController.save(personDTO);
+        personController.save(newPerson);
         assertThat(personController.getById(1L).getBody().getName()).isEqualTo("Igor");
     }
 
@@ -30,8 +31,7 @@ class PersonServiceTest {
     void getPersonsTest() {
 
         Person newPerson = new Person( 1L,"Igor");
-        PersonDTO personDTO = new PersonDTO(newPerson.getId (), newPerson.getName ());
-        personController.save(personDTO);
+        personController.save(newPerson);
         assertThat(personController.getById(1L).getBody().getName())
                 .isEqualTo(newPerson.getName());
     }
@@ -39,11 +39,9 @@ class PersonServiceTest {
     @Test
     void updatePersonTest() {
         Person oldPerson = new Person( 3L,"Igor");
-        PersonDTO oldPersonDTO = new PersonDTO(oldPerson.getId (), oldPerson.getName ());
-        personRepository.save(oldPersonDTO);
+        personRepository.save(oldPerson);
         Person newPerson = new Person(3L, "Igor Rhamon");
-        PersonDTO newPersonDTO = new PersonDTO(newPerson.getId (), newPerson.getName ());
-        personController.save(newPersonDTO);
+        personController.save(newPerson);
         assertThat(personController.getById(newPerson.getId()).getBody().getName())
                 .isEqualTo(newPerson.getName());
     }
@@ -51,16 +49,16 @@ class PersonServiceTest {
     @Test
     void deletePersonTest() {
 
-        Person newPerson = new Person(2L, "Igor");
-        PersonDTO personDTO = new PersonDTO(newPerson.getId (), newPerson.getName ());
-        personController.save(personDTO);
-        personController.delete(1L);
+        Person newPerson = new Person(null, "Igor");
+        Person savePerson = personController.save(newPerson).getBody ();
+
+        personController.delete(savePerson.getId());
         try {
-            personController.getById(1L);
+            personController.getById(savePerson.getId());
         } catch (Exception e) {
-            assertThatThrownBy(() -> personController.getById(1L))
+            assertThatThrownBy(() -> personController.getById(savePerson.getId()))
                     .isInstanceOf(RuntimeException.class)
-                    .hasMessageContaining("Person not found");
+                    .hasMessageContaining("Não foi encontrado nenhum usuário com o id "+ 1L);
         }
     }
 
