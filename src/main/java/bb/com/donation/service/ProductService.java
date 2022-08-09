@@ -1,10 +1,17 @@
 package bb.com.donation.service;
 
+import bb.com.donation.dto.product.ProductGenericDTO;
 import bb.com.donation.model.Product;
 import org.springframework.stereotype.Service;
 
-@Service
-public interface ProductService extends GenericService<Product, Long> {
+import java.util.List;
 
-    Product update(Product product);
+@Service
+public interface ProductService extends GenericService<Product, Long, ProductGenericDTO> {
+
+    Product findByName(String name);
+
+    void deleteById(Long id);
+
+    List<Product> findAll();
 }

@@ -1,5 +1,6 @@
 package bb.com.donation.service.impl;
 
+import bb.com.donation.dto.post.PostGenericDTO;
 import bb.com.donation.model.Post;
 import bb.com.donation.repository.PostRepository;
 import bb.com.donation.service.PostService;
@@ -16,13 +17,12 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
     }
 
-    @Override
-    public Post update(Post post, Long id) {
-        return postRepository.save(post);
-    }
+
 
     @Override
-    public Post save(Post post) {
+    public Post save(PostGenericDTO postGenericDTO) {
+        Post post = postGenericDTO.toPost();
+        post.setId (null);
         return postRepository.save(post);
     }
 

@@ -1,5 +1,6 @@
 package bb.com.donation.service.impl;
 
+import bb.com.donation.dto.product.ProductGenericDTO;
 import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Product;
 import bb.com.donation.repository.ProductRepository;
@@ -17,9 +18,11 @@ public class ProductServiceImp implements ProductService {
         this.productRepository = productRepository;
     }
 
+
+
     @Override
-    public Product save(Product product) {
-        return productRepository.save(product);
+    public Product save(ProductGenericDTO productGenericDTO) {
+        return productRepository.save(productGenericDTO.toProduct());
     }
 
     @Override
@@ -37,8 +40,20 @@ public class ProductServiceImp implements ProductService {
         productRepository.deleteById (id);
     }
 
+
+
     @Override
-    public Product update(Product product) {
-        return productRepository.save (product);
+    public Product findByName(String name) {
+        return productRepository.findByName (name);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        productRepository.deleteById (id);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll ();
     }
 }

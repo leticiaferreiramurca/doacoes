@@ -1,5 +1,6 @@
 package bb.com.donation.service.impl;
 
+import bb.com.donation.dto.person.PersonGenericDTO;
 import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Person;
 import bb.com.donation.repository.PersonRepository;
@@ -17,10 +18,7 @@ public class PersonServiceImp implements PersonService {
         this.personRepository = personRepository;
     }
 
-    @Override
-    public Person update(Person person, Long id) {
-        return personRepository.save(person);
-    }
+
 
     @Override
     public List<Person> getByName(String name) {
@@ -28,9 +26,10 @@ public class PersonServiceImp implements PersonService {
                 .orElseThrow(() -> new ValidacaoException("ID nao encontrado"));
     }
 
+
     @Override
-    public Person save(Person person) {
-        return personRepository.save(person);
+    public Person save(PersonGenericDTO personGenericDTO) {
+        return personRepository.save(personGenericDTO.toPerson());
     }
 
     @Override
@@ -46,5 +45,9 @@ public class PersonServiceImp implements PersonService {
     @Override
     public void delete(Long aLong) {
         personRepository.deleteById(aLong);
+    }
+
+    public Person findById(Long idPerson) {
+        return personRepository.findById(idPerson).orElseThrow (() -> new ValidacaoException("Não foi encontrado nenhum usuário com o id " + idPerson));
     }
 }

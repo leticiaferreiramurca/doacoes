@@ -1,6 +1,7 @@
 package bb.com.donation.service.impl;
 
 
+import bb.com.donation.dto.donation.DonationSaveDTO;
 import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Donation;
 
@@ -18,9 +19,10 @@ public class DonationServiceImp implements DonationService {
         this.donationRepository = donationRepository;
     }
 
+
     @Override
-    public Donation save(Donation donation) {
-        return donationRepository.save(donation);
+    public Donation save(DonationSaveDTO donationSaveDTO) {
+        return donationRepository.save (donationSaveDTO.toDonation ());
     }
 
     @Override
@@ -31,6 +33,11 @@ public class DonationServiceImp implements DonationService {
     @Override
     public List<Donation> getAll() {
         return donationRepository.findAll();
+    }
+
+    @Override
+    public void delete(Long aLong) {
+        donationRepository.deleteById(aLong);
     }
 
     @Override
