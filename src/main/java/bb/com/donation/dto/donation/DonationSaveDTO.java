@@ -1,4 +1,4 @@
-package bb.com.donation.dto;
+package bb.com.donation.dto.donation;
 
 import bb.com.donation.model.Donation;
 import lombok.AllArgsConstructor;
@@ -10,9 +10,10 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @ToString
-public class DonationDTO {
+public class DonationSaveDTO implements DonationGenericDTO {
 
     private String name;
+
 
     public Donation toDonation() {
         Donation donation = new Donation ();
