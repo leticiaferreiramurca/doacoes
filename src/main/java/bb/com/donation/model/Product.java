@@ -37,6 +37,14 @@ public class Product {
     @Column(name = "is_valid")
     private Boolean isValid;
 
+    @ManyToOne
+    @JoinColumn(name = "donation_id")
+    private Donation donation;
+
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

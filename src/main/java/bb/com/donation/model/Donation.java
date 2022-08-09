@@ -5,7 +5,9 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "donation")
@@ -19,9 +21,6 @@ public class Donation {
     @JsonIgnore
     private LocalDate createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "requeriment_id")
-    private Requeriment requerimentId;
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
@@ -29,6 +28,40 @@ public class Donation {
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "person_owner_id", nullable = false)
     private Person personOwner;
+
+    @OneToMany(mappedBy = "donation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Product> products = new LinkedHashSet<> ();
+
+    @OneToMany(mappedBy = "donation_Requests", orphanRemoval = true)
+    private Set<Person> personsInterested = new LinkedHashSet<> ();
+
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "last_message_id")
+    private Message lastMessage;
+
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(Message lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public Set<Person> getPersonsInterested() {
+        return personsInterested;
+    }
+
+    public void setPersonsInterested(Set<Person> persons) {
+        this.personsInterested = persons;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 
     public Person getPersonOwner() {
         return personOwner;
@@ -44,14 +77,6 @@ public class Donation {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Requeriment getRequerimentId() {
-        return requerimentId;
-    }
-
-    public void setRequerimentId(Requeriment requerimentId) {
-        this.requerimentId = requerimentId;
     }
 
     public LocalDate getCreatedAt() {
