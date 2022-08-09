@@ -1,5 +1,6 @@
 package bb.com.donation.controller;
 
+import bb.com.donation.dto.donation.DonationSaveDTO;
 import bb.com.donation.model.Donation;
 import bb.com.donation.service.DonationService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import java.util.List;
 @RequestMapping("/donation")
 public class DonationController {
 
-    private DonationService donationService;
+    private final DonationService donationService;
 
     public DonationController(DonationService donationService) {
         this.donationService = donationService;
@@ -34,7 +35,7 @@ public class DonationController {
     }
 
     @PostMapping("/save")
-    public Donation save(@RequestBody Donation donation) {
+    public Donation save(@RequestBody DonationSaveDTO donation) {
         return donationService.save(donation);
     }
 }

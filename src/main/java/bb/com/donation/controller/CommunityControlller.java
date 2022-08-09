@@ -1,6 +1,7 @@
 package bb.com.donation.controller;
 
 
+import bb.com.donation.dto.community.CommunitySaveDTO;
 import bb.com.donation.model.Community;
 import bb.com.donation.service.CommunityService;
 import lombok.extern.slf4j.Slf4j;
@@ -38,12 +39,12 @@ public class CommunityControlller {
     }
 
     @PostMapping("/save")
-    public Community save(Community community) {
-        return communityService.save (community);
+    public Community save(CommunitySaveDTO communitySaveDTO) {
+        return communityService.save (communitySaveDTO);
     }
 
     @GetMapping("/delete/{id}")
-    public void delete(java.lang.Long id) {
+    public void delete(Long id) {
         communityService.delete (id);
     }
 

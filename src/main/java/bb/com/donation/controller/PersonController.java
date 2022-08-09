@@ -1,6 +1,7 @@
 package bb.com.donation.controller;
 
 
+import bb.com.donation.dto.person.PersonSaveDTO;
 import bb.com.donation.model.Person;
 import bb.com.donation.service.PersonService;
 
@@ -41,7 +42,7 @@ public class PersonController {
 
     @PostMapping("/save")
     @Operation(summary = "Save Person")
-    public ResponseEntity<Person> save(@RequestBody @Valid @NotNull Person person) {
+    public ResponseEntity<Person> save(@RequestBody @Valid @NotNull PersonSaveDTO person) {
         Person personSaved = personService.save (person);
         return ResponseEntity.ok (personSaved);
     }
