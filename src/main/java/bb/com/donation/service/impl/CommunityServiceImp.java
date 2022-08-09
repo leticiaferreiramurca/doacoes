@@ -22,7 +22,7 @@ public class CommunityServiceImp implements CommunityService {
     }
 
     @Override
-    public Community getById(Long aLong) {
+    public Community getById(java.lang.Long aLong) {
         return communityRepository.findById(aLong).orElseThrow (() -> new RuntimeException("Não foi possível encontrar a comunidade"));
     }
 
@@ -32,7 +32,7 @@ public class CommunityServiceImp implements CommunityService {
     }
 
     @Override
-    public void delete(Long aLong) {
+    public void delete(java.lang.Long aLong) {
         communityRepository.deleteById(aLong);
     }
 

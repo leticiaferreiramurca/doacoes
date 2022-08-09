@@ -28,7 +28,7 @@ public class CommunityControlller {
     }
 
     @GetMapping("/list/{id}")
-    public Community getById(Long id) {
+    public Community getById(java.lang.Long id) {
         return communityService.getById (id);
     }
 
@@ -43,7 +43,7 @@ public class CommunityControlller {
     }
 
     @GetMapping("/delete/{id}")
-    public void delete(Long id) {
+    public void delete(java.lang.Long id) {
         communityService.delete (id);
     }
 
