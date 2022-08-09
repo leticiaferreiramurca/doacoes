@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @ToString(onlyExplicitlyIncluded = true)
 @Entity
+@Builder
 public class Person {
     @ToString.Include
     @Id

@@ -1,5 +1,6 @@
 package bb.com.donation.model;
 
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -9,6 +10,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "community")
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Community  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
