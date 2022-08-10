@@ -5,10 +5,7 @@ import bb.com.donation.dto.community.CommunitySaveDTO;
 import bb.com.donation.model.Community;
 import bb.com.donation.service.CommunityService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,27 +20,27 @@ public class CommunityControlller {
         this.communityService = communityService;
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     public List<Community> list() {
         return communityService.getAll ();
     }
 
-    @GetMapping("/list/{id}")
+    @GetMapping("/{id}")
     public Community getById(java.lang.Long id) {
         return communityService.getById (id);
     }
 
-    @GetMapping("/list/name/{name}")
+    @GetMapping("/{name}")
     public Community getByName(String name) {
         return communityService.getByName (name);
     }
 
-    @PostMapping("/save")
+    @PostMapping()
     public Community save(CommunitySaveDTO communitySaveDTO) {
         return communityService.save (communitySaveDTO);
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(Long id) {
         communityService.delete (id);
     }

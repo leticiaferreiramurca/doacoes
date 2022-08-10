@@ -19,23 +19,19 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/person")
 public class PersonController {
-
-
     final PersonService personService;
-
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
 
-
-    @GetMapping("/getAll")
-    @Operation(summary = "Lista todos os produtos")
+    @GetMapping()
+    @Operation(summary = "List All Persons")
     public ResponseEntity<List<Person>> getAll() {
         return ResponseEntity.ok (personService.getAll());
     }
 
 
-    @GetMapping("/Id/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "Get Person by Id")
     public ResponseEntity<Person> getById(@PathVariable @Valid Long id) {
         try {
@@ -46,7 +42,7 @@ public class PersonController {
         }
     }
 
-    @PostMapping("/save")
+    @PostMapping("")
     @Operation(summary = "Save Person")
     public ResponseEntity<Person> save(@RequestBody @Valid @NotNull PersonSaveDTO person) {
         try {
@@ -58,7 +54,7 @@ public class PersonController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Delete Person")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         try {
@@ -70,7 +66,7 @@ public class PersonController {
         }
     }
 
-    @GetMapping("/getByName/{name}")
+    @GetMapping("/{name}")
     @Operation(summary = "Get Person by Name")
     public ResponseEntity<List<Person>> getByName(@PathVariable String name) {
         try {

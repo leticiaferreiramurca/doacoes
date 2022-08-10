@@ -19,22 +19,22 @@ public class DonationController {
         this.donationService = donationService;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping()
     public List<Donation> getAll() {
         return donationService.getAll();
     }
 
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public Donation getById(@PathVariable Long id) {
         return donationService.getById(id);
     }
 
-    @GetMapping("/getByName/{name}")
+    @GetMapping("/{name}")
     public Donation getByName(@PathVariable String name) {
         return donationService.getByName(name);
     }
 
-    @PostMapping("/save")
+    @PostMapping()
     public Donation save(@RequestBody DonationSaveDTO donation) {
         return donationService.save(donation);
     }
