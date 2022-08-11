@@ -1,5 +1,6 @@
 package bb.com.donation.dto.product;
 
+import bb.com.donation.enums.ConditionType;
 import bb.com.donation.model.Community;
 import bb.com.donation.model.Person;
 import bb.com.donation.model.Product;
@@ -15,7 +16,7 @@ public class ProductSaveDTO implements ProductGenericDTO {
     private String name;
     private Long owner;
     private Boolean isValid;
-    private Long idCommunity;
+//    private Long idCommunity;
 
     public Product toProduct() {
         Product product = new Product();
@@ -24,9 +25,10 @@ public class ProductSaveDTO implements ProductGenericDTO {
         person.setId(this.getOwner());
         product.setPerson (person);
         product.setIsValid (this.getIsValid() );
+        product.setConditionType (ConditionType.NEW);
         Community community = new Community ();
-        community.setId(this.getIdCommunity ());
-        product.setCommunity (community);
+//        community.setId(this.getIdCommunity ());
+//        product.setCommunity (community);
 
 
 

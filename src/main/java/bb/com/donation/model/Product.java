@@ -1,6 +1,7 @@
 package bb.com.donation.model;
 
 import bb.com.donation.enums.ConditionType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,9 +24,6 @@ public class Product {
     @Column(name = "name", nullable = true, length = 100)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "personId")
-    private Person person;
 
     @Column(name = "condition_type", nullable = false)
     private ConditionType conditionType;
@@ -37,7 +35,12 @@ public class Product {
     @Column(name = "is_valid")
     private Boolean isValid;
 
-    @ManyToOne
+    @JsonBackReference(value = "product_person")
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "person_id")
+    private Person person;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "donation_id")
     private Donation donation;
 

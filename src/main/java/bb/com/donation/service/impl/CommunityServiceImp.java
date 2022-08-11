@@ -25,7 +25,6 @@ public class CommunityServiceImp implements CommunityService {
     public Community save(CommunitySaveDTO communitySaveDTO) {
         Community community = communitySaveDTO.toCommunity ();
         Person person = personServiceImp.findById (communitySaveDTO.getIdPerson ());
-        community.setPersonOwner (person);
         return communityRepository.save(community);
     }
 

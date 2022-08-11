@@ -21,11 +21,6 @@ public class CommunitySaveDTO implements CommunityGenericDTO {
         return Community.builder()
                 .id(null)
                 .name(name)
-                .personOwner (
-                    Person.builder()
-                            .id(idPerson)
-                            .build()
-                )
                 .build();
     }
 }

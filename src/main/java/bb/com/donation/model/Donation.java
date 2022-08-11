@@ -29,7 +29,7 @@ public class Donation {
     @JoinColumn(name = "person_owner_id", nullable = false)
     private Person personOwner;
 
-    @OneToMany(mappedBy = "donation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "donation", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<Product> products = new LinkedHashSet<> ();
 
     @OneToMany(mappedBy = "donation_Requests", orphanRemoval = true)
@@ -53,14 +53,6 @@ public class Donation {
 
     public void setPersonsInterested(Set<Person> persons) {
         this.personsInterested = persons;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
     }
 
     public Person getPersonOwner() {
