@@ -27,7 +27,7 @@ public class PersonServiceImp implements PersonService {
     @Override
     public Page<Person> filtrar(String filtro, Pageable pageable) {
         final Person personFiltro = new Person();
-        personFiltro.setName(filtro.toString());
+        personFiltro.setName(filtro);
 
         final ExampleMatcher exampleMatcher =
                 ExampleMatcher
