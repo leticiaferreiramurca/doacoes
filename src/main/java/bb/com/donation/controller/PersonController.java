@@ -60,7 +60,7 @@ public class PersonController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/filtro")
     @Operation(summary = "Get Person by Name")
     public ResponseEntity<Page<Person>> getByName(String name, Pageable pageable) {
         try {
