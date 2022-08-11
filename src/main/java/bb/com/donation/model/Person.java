@@ -1,5 +1,6 @@
 package bb.com.donation.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -26,15 +27,22 @@ public class Person {
     @Column(name = "name", length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "person", orphanRemoval = true)
-    private Set<Product> products = new LinkedHashSet<> ();
 
+
+    @JsonManagedReference(value = "person_donation")
     @OneToMany(mappedBy = "personOwner", orphanRemoval = true)
     private Set<Donation> donations = new LinkedHashSet<> ();
 
+    @JsonManagedReference(value = "person_product")
+    @OneToMany(mappedBy = "person", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<Product> products = new LinkedHashSet<> ();
+
+
+//    @JsonManagedReference(value = "person_message")
     @ManyToOne
     @JoinColumn(name = "donation_requests_id")
     private Donation donation_Requests;
+
 
     @Override
     public boolean equals(Object o) {

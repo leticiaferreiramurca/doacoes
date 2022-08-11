@@ -24,11 +24,8 @@ public class Community  {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "person_owner_id")
-    private Person personOwner;
 
-    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "community", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<Product> products = new LinkedHashSet<>();
 
     public Set<Product> getProducts() {
@@ -39,13 +36,6 @@ public class Community  {
         this.products = products;
     }
 
-    public Person getPersonOwner() {
-        return personOwner;
-    }
-
-    public void setPersonOwner(Person personOwner) {
-        this.personOwner = personOwner;
-    }
 
     public String getName() {
         return name;

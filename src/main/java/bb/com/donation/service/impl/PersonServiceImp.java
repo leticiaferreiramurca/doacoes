@@ -5,6 +5,10 @@ import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Person;
 import bb.com.donation.repository.PersonRepository;
 import bb.com.donation.service.PersonService;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +25,19 @@ public class PersonServiceImp implements PersonService {
 
 
     @Override
-    public List<Person> getByName(String name) {
-        return personRepository.findByName (name)
-                .orElseThrow(() -> new ValidacaoException("ID nao encontrado"));
+    public Page<Person> filtrar(String filtro, Pageable pageable) {
+        final Person personFiltro = new Person();
+        personFiltro.setName(filtro);
+
+        final ExampleMatcher exampleMatcher =
+                ExampleMatcher
+                        .matchingAny()
+                        .withIgnoreCase()
+                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        final Example<Person> personExample = Example.of(personFiltro, exampleMatcher);
+
+        return personRepository.findAll(personExample, pageable);
     }
 
 
