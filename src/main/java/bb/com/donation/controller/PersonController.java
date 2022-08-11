@@ -8,12 +8,13 @@ import bb.com.donation.service.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -23,13 +24,6 @@ public class PersonController {
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
-
-    @GetMapping()
-    @Operation(summary = "List All Persons")
-    public ResponseEntity<List<Person>> getAll() {
-        return ResponseEntity.ok (personService.getAll());
-    }
-
 
     @GetMapping("/{id}")
     @Operation(summary = "Get Person by Id")
@@ -42,7 +36,7 @@ public class PersonController {
         }
     }
 
-    @PostMapping("")
+    @PostMapping
     @Operation(summary = "Save Person")
     public ResponseEntity<Person> save(@RequestBody @Valid @NotNull PersonSaveDTO person) {
         try {
@@ -66,14 +60,14 @@ public class PersonController {
         }
     }
 
-    @GetMapping("/{name}")
+    @GetMapping
     @Operation(summary = "Get Person by Name")
-    public ResponseEntity<List<Person>> getByName(@PathVariable String name) {
+    public ResponseEntity<Page<Person>> getByName(String name, Pageable pageable) {
         try {
-            return ResponseEntity.ok (personService.getByName (name));
-        }catch (Exception e){
-            log.error (e.getMessage ());
-            return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build ();
+            return ResponseEntity.ok(personService.filtrar(name, pageable));
+        } catch (Exception e){
+            log.error (e.getMessage());
+            return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
