@@ -11,10 +11,6 @@ import lombok.*;
 @Builder
 public class CommunitySaveDTO implements CommunityGenericDTO {
     private String name;
-    private Long idPerson;
-
-
-
 
     @Override
     public Community toCommunity() {

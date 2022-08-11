@@ -28,6 +28,31 @@ public class Community  {
     @OneToMany(mappedBy = "community", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<Product> products = new LinkedHashSet<>();
 
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
