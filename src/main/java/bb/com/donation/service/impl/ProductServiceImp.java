@@ -2,9 +2,14 @@ package bb.com.donation.service.impl;
 
 import bb.com.donation.dto.product.ProductGenericDTO;
 import bb.com.donation.exceptions.ValidacaoException;
+import bb.com.donation.model.Person;
 import bb.com.donation.model.Product;
 import bb.com.donation.repository.ProductRepository;
 import bb.com.donation.service.ProductService;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -43,8 +48,19 @@ public class ProductServiceImp implements ProductService {
 
 
     @Override
-    public Product findByName(String name) {
-        return productRepository.findByName (name);
+    public Page<Product> filtrar(String filtro, Pageable pageable) {
+        final Product productFiltro = new Product();
+        productFiltro.setName(filtro);
+
+        final ExampleMatcher exampleMatcher =
+                ExampleMatcher
+                        .matchingAny()
+                        .withIgnoreCase()
+                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        final Example<Product> productExample = Example.of(productFiltro, exampleMatcher);
+
+        return productRepository.findAll(productExample, pageable);
     }
 
     @Override
