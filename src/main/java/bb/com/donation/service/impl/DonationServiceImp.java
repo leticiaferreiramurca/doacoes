@@ -9,20 +9,30 @@ import bb.com.donation.repository.DonationRepository;
 import bb.com.donation.service.DonationService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class DonationServiceImp implements DonationService {
 
-    DonationRepository donationRepository;
-    public DonationServiceImp(DonationRepository donationRepository) {
+    final DonationRepository donationRepository;
+    final PersonServiceImp personService;
+    final ProductServiceImp productService;
+
+    public DonationServiceImp(DonationRepository donationRepository, PersonServiceImp personService, ProductServiceImp productService) {
         this.donationRepository = donationRepository;
+        this.personService = personService;
+        this.productService = productService;
     }
 
 
     @Override
     public Donation save(DonationSaveDTO donationSaveDTO) {
-        return donationRepository.save (donationSaveDTO.toDonation ());
+        Donation donation = donationSaveDTO.toDonation();
+        donation.setPersonOwner (personService.getById (donationSaveDTO.getOwnerId ()));
+        donation.setProduct (productService.getById (donationSaveDTO.getProductId ()));
+        donation.setCreatedAt (LocalDate.now ());
+        return donationRepository.save (donation);
     }
 
     @Override

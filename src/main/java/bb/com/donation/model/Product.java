@@ -2,9 +2,7 @@ package bb.com.donation.model;
 
 import bb.com.donation.enums.ConditionType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -14,6 +12,9 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "product")
 public class Product {
     @Id
@@ -40,13 +41,16 @@ public class Product {
     @JoinColumn(name = "person_id")
     private Person person;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "donation_id")
-    private Donation donation;
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "post_id")
     private Post post;
+
+
+
+    @JsonBackReference(value = "product_donation")
+    @OneToOne(mappedBy = "product", orphanRemoval = true)
+    private Donation donation;
 
     @Override
     public boolean equals(Object o) {
