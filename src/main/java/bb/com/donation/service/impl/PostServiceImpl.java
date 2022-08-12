@@ -17,8 +17,6 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
     }
 
-
-
     @Override
     public Post save(PostGenericDTO postGenericDTO) {
         Post post = postGenericDTO.toPost();
