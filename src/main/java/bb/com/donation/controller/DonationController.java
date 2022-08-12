@@ -4,6 +4,7 @@ import bb.com.donation.dto.donation.DonationSaveDTO;
 import bb.com.donation.model.Donation;
 import bb.com.donation.service.DonationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/donation")
+@Tag(name = "Doações", description = "Gerenciamento das doações")
 public class DonationController {
 
     private final DonationService donationService;
