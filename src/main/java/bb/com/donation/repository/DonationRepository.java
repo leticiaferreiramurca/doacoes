@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface DonationRepository extends JpaRepository<Donation, Long> {
     Optional<Donation> findByName(String name);
+
+    Donation findByProductId(Long productId);
 }
