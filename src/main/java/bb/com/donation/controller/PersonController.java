@@ -6,6 +6,7 @@ import bb.com.donation.model.Person;
 import bb.com.donation.service.PersonService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 @RestController
 @Slf4j
 @RequestMapping("/person")
+@Tag(name = "Pessoas", description = "Gerenciamento das pessoas")
 public class PersonController {
     final PersonService personService;
     public PersonController(PersonService personService) {

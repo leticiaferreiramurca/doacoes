@@ -11,12 +11,14 @@ import lombok.*;
 @Builder
 public class CommunitySaveDTO implements CommunityGenericDTO {
     private String name;
+    private String description;
 
     @Override
     public Community toCommunity() {
         return Community.builder()
                 .id(null)
                 .name(name)
+                .description(description)
                 .build();
     }
 }

@@ -11,4 +11,6 @@ import org.springframework.stereotype.Service;
 public interface CommunityService extends GenericService<Community, Long, CommunitySaveDTO> {
 
     Page<Community> filtrar(String filtro, Pageable pageable);
+
+    Page<Community> getAllOrByName(String name, Pageable pageable);
 }

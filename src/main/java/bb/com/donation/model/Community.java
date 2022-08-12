@@ -4,6 +4,9 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -21,8 +24,17 @@ public class Community  {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotNull(message = "Nome da comunidade não pode ficar em branco")
+    @NotBlank
+    @NotEmpty
     @Column(name = "name", nullable = false)
     private String name;
+
+    @NotNull(message = "Descrição da comunidade não pode ficar em branco")
+    @NotBlank
+    @NotEmpty
+    @Column(name = "description", nullable = false)
+    private String description;
 
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.MERGE, orphanRemoval = true)
