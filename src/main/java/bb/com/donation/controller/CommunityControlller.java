@@ -47,17 +47,6 @@ public class CommunityControlller {
         return communityService.getById (id);
     }
 
-    @GetMapping("/filtro")
-    @Operation(summary = "Get Community by Name", tags = {"Comunidades"})
-    public ResponseEntity<Page<Community>> getByName(String name, Pageable pageable) {
-        try {
-            return ResponseEntity.ok(communityService.filtrar(name, pageable));
-        } catch (Exception e){
-            log.error (e.getMessage());
-            return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
     @PostMapping()
     @Operation(summary = "Save Community", tags = {"Comunidades"})
     public Community save(@RequestBody @Valid CommunitySaveDTO communitySaveDTO) {
