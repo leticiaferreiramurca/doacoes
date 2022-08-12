@@ -6,6 +6,7 @@ import bb.com.donation.model.Community;
 import bb.com.donation.model.Person;
 import bb.com.donation.service.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequestMapping("/community")
 @RestController
+@Tag(name = "Comunidades", description = "Comunidades para seguir/registar produto de acordo com o interesse de cada pessoa.")
 public class CommunityControlller {
 
     private final CommunityService communityService;
@@ -28,9 +31,14 @@ public class CommunityControlller {
     }
 
     @GetMapping()
-    @Operation(summary = "List All Communities")
-    public List<Community> list() {
-        return communityService.getAll ();
+    @Operation(summary = "List All Communities", tags = {"Comunidades"})
+    public ResponseEntity<Page<Community>> list(@RequestParam("name") Optional<String> name, Pageable pageable) {
+        try {
+            return ResponseEntity.ok(communityService.getAllOrByName(name.orElse(""), pageable));
+        } catch (Exception e){
+            log.error (e.getMessage());
+            return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/{id}")
@@ -40,7 +48,7 @@ public class CommunityControlller {
     }
 
     @GetMapping("/filtro")
-    @Operation(summary = "Get Community by Name")
+    @Operation(summary = "Get Community by Name", tags = {"Comunidades"})
     public ResponseEntity<Page<Community>> getByName(String name, Pageable pageable) {
         try {
             return ResponseEntity.ok(communityService.filtrar(name, pageable));
@@ -51,13 +59,13 @@ public class CommunityControlller {
     }
 
     @PostMapping()
-    @Operation(summary = "Save Community")
-    public Community save(CommunitySaveDTO communitySaveDTO) {
+    @Operation(summary = "Save Community", tags = {"Comunidades"})
+    public Community save(@RequestBody @Valid CommunitySaveDTO communitySaveDTO) {
         return communityService.save (communitySaveDTO);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete Community")
+    @Operation(summary = "Delete Community", tags = {"Comunidades"})
     public void delete(@PathVariable @Valid Long id) {
         communityService.delete (id);
     }
