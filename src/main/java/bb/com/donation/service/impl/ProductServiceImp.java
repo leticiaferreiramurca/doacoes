@@ -42,10 +42,14 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public void delete(Long id) {
-        productRepository.deleteById (id);
+        Product product = getById(id);
+        if(product.getDonation() == null && product.getPost() == null){
+            productRepository.deleteById (id);
+        } else {
+            throw new ValidacaoException("Não é possível deletar o produto que possui " +
+                    "um post ou uma doação.");
+        }
     }
-
-
 
     @Override
     public Page<Product> filtrar(String filtro, Pageable pageable) {
@@ -61,11 +65,6 @@ public class ProductServiceImp implements ProductService {
         final Example<Product> productExample = Example.of(productFiltro, exampleMatcher);
 
         return productRepository.findAll(productExample, pageable);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        productRepository.deleteById (id);
     }
 
     @Override

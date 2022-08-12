@@ -1,7 +1,6 @@
 package bb.com.donation.controller;
 
 import bb.com.donation.dto.product.ProductSaveDTO;
-import bb.com.donation.model.Person;
 import bb.com.donation.model.Product;
 import bb.com.donation.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,15 +16,11 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/product")
-
 public class ProductController {
-
     private final ProductService productService;
-
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-
 
     @GetMapping()
     @Operation(summary = "Get All Products")
@@ -59,6 +54,6 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete Product")
     public void delete(@PathVariable Long id) {
-        productService.deleteById(id);
+        productService.delete(id);
     }
 }
