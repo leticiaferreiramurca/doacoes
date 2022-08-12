@@ -28,11 +28,13 @@ public class DonationController {
     }
 
     @GetMapping()
+    @Operation(summary = "Get all donations")
     public List<Donation> getAll() {
         return donationService.getAll();
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get donation by id")
     public Donation getById(@PathVariable @Valid Long id) {
         return donationService.getById(id);
     }
@@ -50,6 +52,7 @@ public class DonationController {
     }
 
     @PostMapping()
+    @Operation(summary = "Save a donation")
     public Donation save(@RequestBody @Valid DonationSaveDTO donation) {
         return donationService.save(donation);
     }
