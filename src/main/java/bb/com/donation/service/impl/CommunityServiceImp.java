@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CommunityServiceImp implements CommunityService {
@@ -32,7 +33,7 @@ public class CommunityServiceImp implements CommunityService {
     }
 
     @Override
-    public Community getById(java.lang.Long aLong) {
+    public Community getById(Long aLong) {
         return communityRepository.findById(aLong).orElseThrow (() -> new RuntimeException("Não foi possível encontrar a comunidade"));
     }
 
@@ -42,7 +43,7 @@ public class CommunityServiceImp implements CommunityService {
     }
 
     @Override
-    public void delete(java.lang.Long aLong) {
+    public void delete(Long aLong) {
         communityRepository.deleteById(aLong);
     }
 
@@ -60,5 +61,13 @@ public class CommunityServiceImp implements CommunityService {
         final Example<Community> communityExample = Example.of(communityFiltro, exampleMatcher);
 
         return communityRepository.findAll(communityExample, pageable);
+    }
+
+    @Override
+    public Page<Community> getAllOrByName(String name, Pageable pageable) {
+        if (name.isBlank() || name.isEmpty() || Objects.isNull(name))
+            return communityRepository.findAll(pageable);
+
+        return filtrar(name, pageable);
     }
 }
