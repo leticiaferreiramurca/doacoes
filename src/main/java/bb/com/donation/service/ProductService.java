@@ -14,7 +14,5 @@ public interface ProductService extends GenericService<Product, Long, ProductGen
 
     Page<Product> filtrar(String filtro, Pageable pageable);
 
-    void deleteById(Long id);
-
     List<Product> findAll();
 }

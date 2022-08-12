@@ -1,10 +1,10 @@
 package bb.com.donation.controller;
 
 import bb.com.donation.dto.product.ProductSaveDTO;
-import bb.com.donation.model.Person;
 import bb.com.donation.model.Product;
 import bb.com.donation.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,15 +17,12 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/product")
-
+@Tag(name = "Produtos", description = "Produtos para doar.")
 public class ProductController {
-
     private final ProductService productService;
-
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-
 
     @GetMapping()
     @Operation(summary = "Get All Products")
@@ -59,6 +56,6 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete Product")
     public void delete(@PathVariable Long id) {
-        productService.deleteById(id);
+        productService.delete(id);
     }
 }
