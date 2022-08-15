@@ -1,5 +1,7 @@
 package bb.com.donation.model;
 
+import bb.com.donation.enums.ConditionType;
+import bb.com.donation.enums.DonationStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -19,6 +21,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @Table(name = "donation")
+//TODO: implementar cache
 public class Donation {
 
 //    TODO: filtro por comunidade e inserir o campo comunidade_id na tabela donation
@@ -35,6 +38,9 @@ public class Donation {
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
+
+    @Column(name = "donation_status", nullable = false)
+    private DonationStatus donationStatus;
 
     @JsonBackReference(value = "donation_person")
     @ManyToOne(cascade = CascadeType.ALL, optional = false)

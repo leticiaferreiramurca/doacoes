@@ -18,6 +18,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+//TODO: implementar cache
 public class Community  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

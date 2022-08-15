@@ -13,6 +13,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "post")
+//TODO: implementar cache
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

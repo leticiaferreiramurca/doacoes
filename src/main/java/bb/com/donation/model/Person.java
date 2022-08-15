@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -34,8 +36,9 @@ public class Person {
     @OneToMany(mappedBy = "personOwner", orphanRemoval = true)
     private Set<Donation> donations = new LinkedHashSet<> ();
 
-    @JsonManagedReference(value = "person_product")
+//    @JsonManagedReference(value = "person_product")
     @OneToMany(mappedBy = "person", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @Fetch (FetchMode.SUBSELECT)
     private Set<Product> products = new LinkedHashSet<> ();
 
 

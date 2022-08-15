@@ -65,4 +65,23 @@ public class DonationController {
     public Donation save(@RequestBody @Valid DonationSaveDTO donation) {
         return donationService.save(donation);
     }
+
+    @PutMapping("next-status/{id}/{status}")
+    @Operation(summary = "Change status of donation")
+    public ResponseEntity<Donation> changeStatus(@PathVariable @Valid Long id, @PathVariable @Valid String status) {
+                return ResponseEntity.ok (donationService.changeStatus (id, status));
+    }
+
+    @GetMapping("/status")
+    @Operation(summary = "Get all donations by status")
+    public ResponseEntity<Page<Donation>> getByStatus(@RequestParam("status") String status, Pageable pageable) {
+
+        try {
+            return ResponseEntity.ok(donationService.getAllOrByDonationStatus (status, pageable));
+        } catch (Exception e){
+            log.error (e.getMessage());
+            return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }

@@ -2,6 +2,8 @@ package bb.com.donation.service.impl;
 
 
 import bb.com.donation.dto.donation.DonationSaveDTO;
+import bb.com.donation.enums.ConditionType;
+import bb.com.donation.enums.DonationStatus;
 import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Donation;
 import bb.com.donation.repository.DonationRepository;
@@ -40,6 +42,7 @@ public class DonationServiceImp implements DonationService {
         donation.setPersonOwner (personService.getById (donationSaveDTO.getOwnerId ()));
         donation.setProduct (productService.getById (donationSaveDTO.getProductId ()));
         donation.setCreatedAt (LocalDate.now ());
+        donation.setDonationStatus (DonationStatus.NEW);
         return donationRepository.save (donation);
     }
 
@@ -78,6 +81,60 @@ public class DonationServiceImp implements DonationService {
     public Page<Donation> getAllOrByName(String name, Pageable pageable) {
         if (name.isBlank() || name.isEmpty() || Objects.isNull(name))
             return donationRepository.findAll(pageable);
-        return getByName(name, pageable);
+        return this.getByName(name, pageable);
     }
+
+    public Page<Donation> getAllOrByDonationStatus(String donationStatusString, Pageable pageable) {
+
+        DonationStatus donationStatus = DonationStatus.valueOf(donationStatusString);
+        if (Objects.isNull(donationStatus))
+            return donationRepository.findAll(pageable);
+        return this.findByDonationStatus(donationStatus, pageable);
+    }
+
+    private Page<Donation> findByDonationStatus(DonationStatus donationStatus, Pageable pageable) {
+        final Donation donationFiltro = new Donation();
+        donationFiltro.setDonationStatus(donationStatus);
+
+        final ExampleMatcher exampleMatcher =
+                ExampleMatcher
+                        .matchingAny()
+                        .withIgnoreCase()
+                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        final Example<Donation> donationExample = Example.of(donationFiltro, exampleMatcher);
+
+        return donationRepository.findAll(donationExample, pageable);
+    }
+
+    public Donation changeStatus(Long id, String status) {
+        Donation donation = getById(id);
+        if(donation == null) {
+            throw new ValidacaoException("Donation not found");
+        }
+        statusVerification(donation, status);
+        DonationStatus donationStatus = DonationStatus.valueOf(status);
+        donation.setDonationStatus (donationStatus);
+        return donationRepository.save(donation);
+    }
+
+    private void statusVerification(Donation donation, String status) {
+        DonationStatus donationStatus = DonationStatus.valueOf(status);
+
+        if(donation.getDonationStatus().equals(DonationStatus.valueOf(status))) {
+            throw new ValidacaoException("Donation already in this status");
+        }
+        if(donation.getDonationStatus().equals(DonationStatus.ONPROGRESS) || donationStatus.equals(DonationStatus.NEW)) {
+            throw new ValidacaoException("Donation was already created");
+        }else if(donation.getDonationStatus().equals(DonationStatus.FINISHED)) {
+            throw new ValidacaoException("Donation was already done");
+        }
+    }
+
+    //    TODO: filtro pelo status
+
+
+
+
+
 }

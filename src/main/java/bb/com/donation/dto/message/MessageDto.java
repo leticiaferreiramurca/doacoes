@@ -1,4 +1,4 @@
-package bb.com.donation;
+package bb.com.donation.dto.message;
 
 import bb.com.donation.dto.person.PersonDto;
 import bb.com.donation.model.Message;

@@ -1,6 +1,6 @@
 package bb.com.donation.controller;
 
-import bb.com.donation.MessageDto;
+import bb.com.donation.dto.message.MessageDto;
 import bb.com.donation.model.Message;
 import bb.com.donation.service.MessageService;
 import lombok.extern.slf4j.Slf4j;

@@ -2,6 +2,8 @@ package bb.com.donation.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
@@ -37,15 +39,9 @@ public class Message {
 //    @JsonManagedReference(value = "message_message")
 //    @OneToOne(orphanRemoval = true)
 //    @JoinColumn(name = "last_message_id", nullable = true)
-//    private Message lastMessage;
+//    @Fetch (FetchMode.JOIN)
+    private Long lastMessage;
 
-//    public Message getLastMessage() {
-//        return lastMessage;
-//    }
-//
-//    public void setLastMessage(Message lastMessage) {
-//        this.lastMessage = lastMessage;
-//    }
 
     public Person getPerson_by() {
         return person_by;
