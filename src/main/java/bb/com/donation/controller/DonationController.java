@@ -1,8 +1,10 @@
 package bb.com.donation.controller;
 
 import bb.com.donation.dto.donation.DonationSaveDTO;
+import bb.com.donation.model.Community;
 import bb.com.donation.model.Donation;
 import bb.com.donation.service.DonationService;
+import bb.com.donation.service.impl.DonationServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -21,16 +24,22 @@ import java.util.List;
 @Tag(name = "Doações", description = "Gerenciamento das doações")
 public class DonationController {
 
-    private final DonationService donationService;
+    private final DonationServiceImp donationService;
 
-    public DonationController(DonationService donationService) {
+    public DonationController(DonationServiceImp donationService) {
         this.donationService = donationService;
     }
 
     @GetMapping()
     @Operation(summary = "Get all donations")
-    public List<Donation> getAll() {
-        return donationService.getAll();
+    public ResponseEntity<Page<Donation>> list(@RequestParam("name") Optional<String> name, Pageable pageable) {
+
+        try {
+            return ResponseEntity.ok(donationService.getAllOrByName(name.orElse(""), pageable));
+        } catch (Exception e){
+            log.error (e.getMessage());
+            return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/{id}")

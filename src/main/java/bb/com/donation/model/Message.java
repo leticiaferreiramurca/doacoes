@@ -34,18 +34,18 @@ public class Message {
     @JoinColumn(name = "person_by_id")
     private Person person_by;
 
-    @JsonManagedReference(value = "message_message")
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "last_message_id")
-    private Message lastMessage;
+//    @JsonManagedReference(value = "message_message")
+//    @OneToOne(orphanRemoval = true)
+//    @JoinColumn(name = "last_message_id", nullable = true)
+//    private Message lastMessage;
 
-    public Message getLastMessage() {
-        return lastMessage;
-    }
-
-    public void setLastMessage(Message lastMessage) {
-        this.lastMessage = lastMessage;
-    }
+//    public Message getLastMessage() {
+//        return lastMessage;
+//    }
+//
+//    public void setLastMessage(Message lastMessage) {
+//        this.lastMessage = lastMessage;
+//    }
 
     public Person getPerson_by() {
         return person_by;

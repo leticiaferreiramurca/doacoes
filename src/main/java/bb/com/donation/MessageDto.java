@@ -31,7 +31,7 @@ public class MessageDto implements Serializable {
                 .bodyMessage(bodyMessage)
                 .person_to(person_to.toPerson())
                 .person_by(person_by.toPerson())
-                .lastMessage(Message.builder ().id (lastMessage).build ())
+//                .lastMessage(Message.builder ().id (lastMessage).build ())
                 .build();
     }
 }

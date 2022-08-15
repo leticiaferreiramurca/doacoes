@@ -9,10 +9,12 @@ import bb.com.donation.service.DonationService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DonationServiceImp implements DonationService {
@@ -57,7 +59,7 @@ public class DonationServiceImp implements DonationService {
         donationRepository.deleteById(aLong);
     }
     @Override
-    public Page<Donation> getByName(String name, org.springframework.data.domain.Pageable pageable) {
+    public Page<Donation> getByName(String name, Pageable pageable) {
         final Donation donationFiltro = new Donation();
         donationFiltro.setName(name);
 
@@ -73,5 +75,9 @@ public class DonationServiceImp implements DonationService {
     }
 
 
-
+    public Page<Donation> getAllOrByName(String name, Pageable pageable) {
+        if (name.isBlank() || name.isEmpty() || Objects.isNull(name))
+            return donationRepository.findAll(pageable);
+        return getByName(name, pageable);
+    }
 }
