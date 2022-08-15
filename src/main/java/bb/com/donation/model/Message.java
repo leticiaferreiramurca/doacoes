@@ -1,8 +1,16 @@
 package bb.com.donation.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "message")
 public class Message {
     @Id
@@ -18,12 +26,15 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "person_to_id")
+    @JsonManagedReference(value = "message_person")
     private Person person_to;
 
     @ManyToOne
+    @JsonManagedReference(value = "message_person")
     @JoinColumn(name = "person_by_id")
     private Person person_by;
 
+    @JsonManagedReference(value = "message_message")
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "last_message_id")
     private Message lastMessage;

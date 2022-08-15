@@ -48,6 +48,7 @@ public class Donation {
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "last_message_id")
+    @JsonBackReference(value = "donation_message")
     private Message lastMessage;
 
     @JsonManagedReference(value = "donation_product")
