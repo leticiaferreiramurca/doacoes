@@ -87,7 +87,7 @@ public class DonationServiceImp implements DonationService {
     public Page<Donation> getAllOrByDonationStatus(String donationStatusString, Pageable pageable) {
 
         DonationStatus donationStatus = DonationStatus.valueOf(donationStatusString);
-        if (Objects.isNull(donationStatus))
+        if (donationStatusString.isBlank() || donationStatusString.isEmpty() || Objects.isNull(donationStatusString))
             return donationRepository.findAll(pageable);
         return this.findByDonationStatus(donationStatus, pageable);
     }
@@ -119,16 +119,19 @@ public class DonationServiceImp implements DonationService {
     }
 
     private void statusVerification(Donation donation, String status) {
-        DonationStatus donationStatus = DonationStatus.valueOf(status);
+        DonationStatus newDonationStatus = DonationStatus.valueOf(status);
+        DonationStatus donationStatus = donation.getDonationStatus();
 
-        if(donation.getDonationStatus().equals(DonationStatus.valueOf(status))) {
-            throw new ValidacaoException("Donation already in this status");
+        if(donationStatus.equals (newDonationStatus)) {
+            throw new ValidacaoException ("Donation status was already " + donationStatus);
         }
-        if(donation.getDonationStatus().equals(DonationStatus.ONPROGRESS) || donationStatus.equals(DonationStatus.NEW)) {
-            throw new ValidacaoException("Donation was already created");
-        }else if(donation.getDonationStatus().equals(DonationStatus.FINISHED)) {
-            throw new ValidacaoException("Donation was already done");
+        if(donationStatus.equals (DonationStatus.NEW) && newDonationStatus.equals (DonationStatus.ONPROGRESS)) {
+            return;
         }
+        if(donationStatus.equals (DonationStatus.ONPROGRESS) && newDonationStatus.equals (DonationStatus.FINISHED)) {
+            return;
+        }
+        throw new ValidacaoException ("Donation status can't be changed from " + donationStatus + " to " + newDonationStatus);
     }
 
     //    TODO: filtro pelo status
