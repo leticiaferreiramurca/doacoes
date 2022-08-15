@@ -15,10 +15,10 @@ public class MessageDto implements Serializable {
     private final String bodyMessage;
     private final PersonDto person_to;
     private final PersonDto person_by;
-    private final MessageDto lastMessage;
+    private final Long lastMessage;
 
 
-    public MessageDto(String subject, String bodyMessage, PersonDto person_by, PersonDto person_to, MessageDto lastMessage){
+    public MessageDto(String subject, String bodyMessage, PersonDto person_by, PersonDto person_to, Long lastMessage){
         this.subject = subject;
         this.bodyMessage = bodyMessage;
         this.person_by = person_by;
@@ -31,7 +31,7 @@ public class MessageDto implements Serializable {
                 .bodyMessage(bodyMessage)
                 .person_to(person_to.toPerson())
                 .person_by(person_by.toPerson())
-                .lastMessage(lastMessage.toMessage ())
+                .lastMessage(Message.builder ().id (lastMessage).build ())
                 .build();
     }
 }

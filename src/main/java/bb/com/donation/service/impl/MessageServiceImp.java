@@ -31,7 +31,7 @@ public class MessageServiceImp implements MessageService {
 
     @Override
     public List<Message> getAll() {
-        return null;
+        return messageRepository.findAll ();
     }
 
     @Override
