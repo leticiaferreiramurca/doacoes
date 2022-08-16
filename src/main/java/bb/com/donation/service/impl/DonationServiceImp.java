@@ -4,12 +4,14 @@ package bb.com.donation.service.impl;
 import bb.com.donation.dto.donation.DonationSaveDTO;
 import bb.com.donation.dto.donation.DonationSetInterestSaveDTO;
 import bb.com.donation.enums.DonationStatus;
+import bb.com.donation.exceptions.ErrorMessages;
 import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Donation;
 import bb.com.donation.model.Person;
 import bb.com.donation.repository.DonationRepository;
 import bb.com.donation.service.DonationService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.ErrorMessage;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
@@ -52,7 +54,7 @@ public class DonationServiceImp implements DonationService {
 
     @Override
     public Donation getById(Long id) {
-        return donationRepository.findById(id).orElseThrow (() -> new ValidacaoException ("Donation not found"));
+        return donationRepository.findById(id).orElseThrow (() -> new ValidacaoException (ErrorMessages.DONATION_NOT_FOUND));
     }
 
     @Override
@@ -114,7 +116,7 @@ public class DonationServiceImp implements DonationService {
     public Donation changeStatus(Long id, String status) {
         Donation donation = getById(id);
         if(donation == null) {
-            throw new ValidacaoException("Donation not found");
+            throw new ValidacaoException(ErrorMessages.DONATION_NOT_FOUND);
         }
         statusVerification(donation, status);
         DonationStatus donationStatus = DonationStatus.valueOf(status);
@@ -127,15 +129,29 @@ public class DonationServiceImp implements DonationService {
         Donation donation = getById(donationId);
         Person personInterest = personService.getById(personID);
         if(donation == null) {
-            throw new ValidacaoException("Donation not found");
+            throw new ValidacaoException(ErrorMessages.DONATION_NOT_FOUND);
         }
         if(donation.getPersonsInterested ().stream().count () >3) {
             throw new ValidacaoException("Maximum of 3 persons");
         }
         if(personInterest == null) {
-            throw new ValidacaoException("Person not found");
+            throw new ValidacaoException(ErrorMessages.PERSON_NOT_FOUND);
         }
         donation.getPersonsInterested ().add (personInterest);
+        return donationRepository.save(donation);
+    }
+
+    public Donation removeInterest(Long donationId, Long personID) {
+
+        Donation donation = getById(donationId);
+        Person personInterest = personService.getById(personID);
+        if(donation == null) {
+            throw new ValidacaoException(ErrorMessages.DONATION_NOT_FOUND);
+        }
+        if(personInterest == null) {
+            throw new ValidacaoException(ErrorMessages.PERSON_NOT_FOUND);
+        }
+        donation.getPersonsInterested ().remove (personInterest);
         return donationRepository.save(donation);
     }
 
@@ -154,10 +170,5 @@ public class DonationServiceImp implements DonationService {
         }
         throw new ValidacaoException ("Donation status can't be changed from " + donationStatus + " to " + newDonationStatus);
     }
-
-
-
-
-
 
 }

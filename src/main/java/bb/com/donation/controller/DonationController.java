@@ -97,6 +97,22 @@ public class DonationController {
         }
     }
 
+    @PutMapping("/remove-interest/")
+    @Operation(summary = "Remove interest of donation")
+    public ResponseEntity<Donation> removeInterest(@RequestParam @Valid Long id, @RequestParam @Valid Long personId) {
+        try {
+            return ResponseEntity.ok (donationService.removeInterest (id, personId));
+        }catch (ValidacaoException e){
+            return ResponseEntity.status (HttpStatus.BAD_REQUEST).build();
+        } catch (Exception e){
+            log.error (e.getMessage());
+            return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
+
 }
 
 
