@@ -1,9 +1,7 @@
 package bb.com.donation.controller;
 
 import bb.com.donation.dto.donation.DonationSaveDTO;
-import bb.com.donation.model.Community;
 import bb.com.donation.model.Donation;
-import bb.com.donation.service.DonationService;
 import bb.com.donation.service.impl.DonationServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -32,10 +29,11 @@ public class DonationController {
 
     @GetMapping()
     @Operation(summary = "Get all donations")
-    public ResponseEntity<Page<Donation>> list(@RequestParam("name") Optional<String> name, Pageable pageable) {
+    public ResponseEntity<Page<Donation>> list(@RequestParam(value = "name", required = false) Optional<String> name, Pageable pageable) {
 
         try {
-            return ResponseEntity.ok(donationService.getAllOrByName(name.orElse(""), pageable));
+            Page<Donation> donations = donationService.getAllOrByName(name.orElse (""), pageable);
+            return ResponseEntity.ok(donations);
         } catch (Exception e){
             log.error (e.getMessage());
             return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -74,10 +72,10 @@ public class DonationController {
 
     @GetMapping("/status")
     @Operation(summary = "Get all donations by status")
-    public ResponseEntity<Page<Donation>> getByStatus(@RequestParam("status") String status, Pageable pageable) {
+    public ResponseEntity<Page<Donation>> getByStatus(@RequestParam(required = false) Optional<String> status, Pageable pageable) {
 
         try {
-            return ResponseEntity.ok(donationService.getAllOrByDonationStatus (status, pageable));
+            return ResponseEntity.ok(donationService.getAllOrByDonationStatus (status.orElse (""), pageable));
         } catch (Exception e){
             log.error (e.getMessage());
             return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -2,7 +2,6 @@ package bb.com.donation.service.impl;
 
 
 import bb.com.donation.dto.donation.DonationSaveDTO;
-import bb.com.donation.enums.ConditionType;
 import bb.com.donation.enums.DonationStatus;
 import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Donation;
@@ -79,7 +78,7 @@ public class DonationServiceImp implements DonationService {
 
 
     public Page<Donation> getAllOrByName(String name, Pageable pageable) {
-        if (name.isBlank() || name.isEmpty() || Objects.isNull(name))
+        if (name.isBlank() || name.isEmpty())
             return donationRepository.findAll(pageable);
         return this.getByName(name, pageable);
     }

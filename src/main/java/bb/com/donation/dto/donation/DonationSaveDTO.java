@@ -8,8 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.*;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,7 +16,6 @@ public class DonationSaveDTO implements DonationGenericDTO {
 
     private Long id;
     private String name;
-    private List<Long> requerimentIds;
     private Long ownerId;
     private Long productId;
 
