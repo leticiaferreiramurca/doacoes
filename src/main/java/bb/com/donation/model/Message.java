@@ -2,8 +2,6 @@ package bb.com.donation.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
@@ -29,12 +27,12 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "person_to_id")
     @JsonManagedReference(value = "message_person")
-    private Person person_to;
+    private Person personTo;
 
     @ManyToOne
     @JsonManagedReference(value = "message_person")
     @JoinColumn(name = "person_by_id")
-    private Person person_by;
+    private Person personBy;
 
 //    @JsonManagedReference(value = "message_message")
 //    @OneToOne(orphanRemoval = true)
@@ -43,20 +41,20 @@ public class Message {
     private Long lastMessage;
 
 
-    public Person getPerson_by() {
-        return person_by;
+    public Person getPersonBy() {
+        return personBy;
     }
 
-    public void setPerson_by(Person person_by) {
-        this.person_by = person_by;
+    public void setPersonBy(Person person_by) {
+        this.personBy = person_by;
     }
 
-    public Person getPerson_to() {
-        return person_to;
+    public Person getPersonTo() {
+        return personTo;
     }
 
-    public void setPerson_to(Person person_to) {
-        this.person_to = person_to;
+    public void setPersonTo(Person person_to) {
+        this.personTo = person_to;
     }
 
     public String getBodyMessage() {
