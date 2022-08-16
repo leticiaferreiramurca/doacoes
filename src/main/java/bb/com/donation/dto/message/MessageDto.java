@@ -18,14 +18,17 @@ public class MessageDto implements Serializable {
     private final Long personBy;
     private final Long lastMessage;
 
+    private final Long donationId;
 
-    public MessageDto(Long id, String subject, String bodyMessage, Long personBy, Long personTo, Long lastMessage){
+
+    public MessageDto(Long id, String subject, String bodyMessage, Long personBy, Long personTo, Long lastMessage, Long donationId){
         this.id = id;
         this.subject = subject;
         this.bodyMessage = bodyMessage;
         this.personBy = personBy;
         this.personTo = personTo;
         this.lastMessage = lastMessage;
+        this.donationId = donationId;
     }
     public Message toMessage() {
         return Message.builder()
