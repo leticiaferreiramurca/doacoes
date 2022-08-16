@@ -2,6 +2,7 @@ package bb.com.donation.service.impl;
 
 import bb.com.donation.dto.message.MessageDto;
 import bb.com.donation.exceptions.ValidacaoException;
+import bb.com.donation.model.Donation;
 import bb.com.donation.model.Message;
 import bb.com.donation.repository.MessageRepository;
 import bb.com.donation.service.MessageService;
@@ -17,12 +18,14 @@ public class MessageServiceImp implements MessageService {
     private final MessageRepository messageRepository;
     private final ModelMapper modelMapper;
     private final PersonServiceImp personService;
+    private final DonationServiceImp donationService;
 
 
-    public MessageServiceImp(MessageRepository messageRepository, ModelMapper modelMapper, PersonServiceImp personService) {
+    public MessageServiceImp(MessageRepository messageRepository, ModelMapper modelMapper, PersonServiceImp personService, DonationServiceImp donationService) {
         this.messageRepository = messageRepository;
         this.modelMapper = modelMapper;
         this.personService = personService;
+        this.donationService = donationService;
     }
 
     @Override
@@ -30,8 +33,11 @@ public class MessageServiceImp implements MessageService {
         Message message = convertToEntity (messageDto);
         message.setPersonBy (personService.getById (messageDto.getPersonBy ()));
         message.setPersonTo (personService.getById (messageDto.getPersonTo ()));
+        Donation donation = donationService.getById (messageDto.getDonationId ());
 
-
+        if(!donation.getPersonsInterested ().contains (message.getPersonTo ())) {
+            throw new ValidacaoException ("Message connot be sent to this person");
+        }
         if(message.getLastMessage ().equals (message.getId ())) {
             throw new ValidacaoException ("Last message can't be the same as message id");
         }
@@ -71,10 +77,6 @@ public class MessageServiceImp implements MessageService {
                 () -> new ValidacaoException ("Message not found")
         );
         messageRepository.delete (message);
-    }
-
-    private MessageDto convertToDto(Message message) {
-        return modelMapper.map(message, MessageDto.class);
     }
 
     private Message convertToEntity(MessageDto messageDto) {
