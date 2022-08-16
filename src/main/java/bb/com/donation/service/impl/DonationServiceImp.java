@@ -2,11 +2,14 @@ package bb.com.donation.service.impl;
 
 
 import bb.com.donation.dto.donation.DonationSaveDTO;
+import bb.com.donation.dto.donation.DonationSetInterestSaveDTO;
 import bb.com.donation.enums.DonationStatus;
 import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Donation;
+import bb.com.donation.model.Person;
 import bb.com.donation.repository.DonationRepository;
 import bb.com.donation.service.DonationService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
@@ -15,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class DonationServiceImp implements DonationService {
@@ -24,10 +26,13 @@ public class DonationServiceImp implements DonationService {
     final PersonServiceImp personService;
     final ProductServiceImp productService;
 
-    public DonationServiceImp(DonationRepository donationRepository, PersonServiceImp personService, ProductServiceImp productService) {
+    final ModelMapper modelMapper;
+
+    public DonationServiceImp(DonationRepository donationRepository, PersonServiceImp personService, ProductServiceImp productService, ModelMapper modelMapper) {
         this.donationRepository = donationRepository;
         this.personService = personService;
         this.productService = productService;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -86,7 +91,7 @@ public class DonationServiceImp implements DonationService {
     public Page<Donation> getAllOrByDonationStatus(String donationStatusString, Pageable pageable) {
 
         DonationStatus donationStatus = DonationStatus.valueOf(donationStatusString);
-        if (donationStatusString.isBlank() || donationStatusString.isEmpty() || Objects.isNull(donationStatusString))
+        if (donationStatusString.isBlank() || donationStatusString.isEmpty())
             return donationRepository.findAll(pageable);
         return this.findByDonationStatus(donationStatus, pageable);
     }
@@ -117,6 +122,23 @@ public class DonationServiceImp implements DonationService {
         return donationRepository.save(donation);
     }
 
+    public Donation setInterest(Long donationId, Long personID) {
+
+        Donation donation = getById(donationId);
+        Person personInterest = personService.getById(personID);
+        if(donation == null) {
+            throw new ValidacaoException("Donation not found");
+        }
+        if(donation.getPersonsInterested ().stream().count () >3) {
+            throw new ValidacaoException("Maximum of 3 persons");
+        }
+        if(personInterest == null) {
+            throw new ValidacaoException("Person not found");
+        }
+        donation.getPersonsInterested ().add (personInterest);
+        return donationRepository.save(donation);
+    }
+
     private void statusVerification(Donation donation, String status) {
         DonationStatus newDonationStatus = DonationStatus.valueOf(status);
         DonationStatus donationStatus = donation.getDonationStatus();
@@ -133,7 +155,6 @@ public class DonationServiceImp implements DonationService {
         throw new ValidacaoException ("Donation status can't be changed from " + donationStatus + " to " + newDonationStatus);
     }
 
-    //    TODO: filtro pelo status
 
 
 
