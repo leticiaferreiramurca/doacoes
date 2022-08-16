@@ -2,7 +2,6 @@ package bb.com.donation.service.impl;
 
 
 import bb.com.donation.dto.donation.DonationSaveDTO;
-import bb.com.donation.dto.donation.DonationSetInterestSaveDTO;
 import bb.com.donation.enums.DonationStatus;
 import bb.com.donation.exceptions.ErrorMessages;
 import bb.com.donation.exceptions.ValidacaoException;
@@ -11,7 +10,7 @@ import bb.com.donation.model.Person;
 import bb.com.donation.repository.DonationRepository;
 import bb.com.donation.service.DonationService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.spi.ErrorMessage;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
@@ -53,11 +52,13 @@ public class DonationServiceImp implements DonationService {
     }
 
     @Override
+    @Cacheable("donation")
     public Donation getById(Long id) {
         return donationRepository.findById(id).orElseThrow (() -> new ValidacaoException (ErrorMessages.DONATION_NOT_FOUND));
     }
 
     @Override
+    @Cacheable(value = "donation")
     public List<Donation> getAll() {
         return donationRepository.findAll();
     }
@@ -68,6 +69,7 @@ public class DonationServiceImp implements DonationService {
         donationRepository.deleteById(aLong);
     }
     @Override
+    @Cacheable("donation")
     public Page<Donation> getByName(String name, Pageable pageable) {
         final Donation donationFiltro = new Donation();
         donationFiltro.setName(name);
@@ -90,6 +92,7 @@ public class DonationServiceImp implements DonationService {
         return this.getByName(name, pageable);
     }
 
+    @Cacheable("donation_status")
     public Page<Donation> getAllOrByDonationStatus(String donationStatusString, Pageable pageable) {
 
         DonationStatus donationStatus = DonationStatus.valueOf(donationStatusString);
@@ -131,7 +134,7 @@ public class DonationServiceImp implements DonationService {
         if(donation == null) {
             throw new ValidacaoException(ErrorMessages.DONATION_NOT_FOUND);
         }
-        if(donation.getPersonsInterested ().stream().count () >3) {
+        if((long) donation.getPersonsInterested ().size () >3) {
             throw new ValidacaoException("Maximum of 3 persons");
         }
         if(personInterest == null) {
