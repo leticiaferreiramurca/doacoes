@@ -1,6 +1,8 @@
 package bb.com.donation.controller;
 
 import bb.com.donation.dto.donation.DonationSaveDTO;
+import bb.com.donation.dto.donation.DonationSetInterestSaveDTO;
+import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Donation;
 import bb.com.donation.service.impl.DonationServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
@@ -82,4 +84,19 @@ public class DonationController {
         }
     }
 
+    @PostMapping("/set-interest/")
+    @Operation(summary = "Set interest of donation")
+    public ResponseEntity<Donation> setInterest(@RequestParam @Valid Long id, @RequestParam @Valid Long personId) {
+        try {
+            return ResponseEntity.ok (donationService.setInterest (id, personId));
+        }catch (ValidacaoException e){
+            return ResponseEntity.status (HttpStatus.BAD_REQUEST).build();
+        } catch (Exception e){
+            log.error (e.getMessage());
+            return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }
+
+
