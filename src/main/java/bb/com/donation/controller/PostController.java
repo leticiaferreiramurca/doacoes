@@ -1,6 +1,7 @@
 package bb.com.donation.controller;
 
 import bb.com.donation.dto.post.PostSaveDTO;
+import bb.com.donation.dto.post.PostUpdateDTO;
 import bb.com.donation.model.Post;
 import bb.com.donation.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,16 +25,17 @@ public class PostController {
     }
 
     @PostMapping()
-    @Operation(summary = "Save Post")
+    @Operation(summary = "Save Post", tags = {"Posts"})
     public Post save(PostSaveDTO postSaveDTO) {
         return postService.save(postSaveDTO);
     }
 
     @PostMapping("/{id}")
-    @Operation(summary = "Edit Post. 1 - to change name; 2 - to change description")
-    public ResponseEntity<Post> edit(Long postID, Integer opcao, String text) {
+    @Operation(summary = "Update Post", tags = {"Posts"})
+    public ResponseEntity<Post> edit(@RequestBody PostUpdateDTO postUpdateDTO) {
         try {
-            return ResponseEntity.ok (postService.edit(postID, opcao, text));
+            Post post = postUpdateDTO.toPost ();
+            return ResponseEntity.ok (postService.edit(post));
         }catch (Exception e){
             log.error (e.getMessage ());
             return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build ();
@@ -41,13 +43,13 @@ public class PostController {
     }
 
     @GetMapping()
-    @Operation(summary = "List All Posts")
+    @Operation(summary = "List All Posts", tags = {"Posts"})
     public List<Post> list() {
         return postService.getAll ();
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get Post by Id")
+    @Operation(summary = "Get Post by Id", tags = {"Posts"})
     public ResponseEntity<Post> getById(@PathVariable @Valid Long id) {
         try {
             return ResponseEntity.ok (postService.getById (id));
@@ -58,7 +60,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete Post by id")
+    @Operation(summary = "Delete Post by id", tags = {"Posts"})
     public ResponseEntity<String> delete(@PathVariable Long id) {
         try {
             postService.delete (id);

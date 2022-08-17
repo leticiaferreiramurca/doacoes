@@ -6,38 +6,39 @@ import bb.com.donation.repository.PostRepository;
 import bb.com.donation.service.PostService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PostServiceImpl implements PostService {
 
-    PostRepository postRepository;
+    final PostRepository postRepository;
 
     public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
 
     @Override
+    @Transactional
     public Post save(PostGenericDTO postGenericDTO) {
         Post post = postGenericDTO.toPost();
         post.setId (null);
         return postRepository.save(post);
     }
     @Override
-    public Post edit(Long postID,Integer option, String text) throws Exception {
-        Post post = getById(postID);
-        switch (option){
-            case 1:
-                post.setName(text);
-                break;
-            case 2:
-                post.setDescription(text);
-                break;
-            default:
-                throw new Exception("Opção Inválida");
+    @Transactional
+    public Post edit(Post post) throws ValidationException {
+        Post postByID = getById(post.getId ());
+        if(Objects.isNull (postByID)){
+            throw new ValidationException ("Não foi encontrado nenhum post com o id " + post.getId ());
         }
-        return postRepository.save(post);
+        postByID.setName (post.getName ());
+        postByID.setDescription (post.getDescription ());
+        postByID.setUrlImg (post.getUrlImg ());
+        return postRepository.save(postByID);
     }
 
     @Override
@@ -53,6 +54,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public void delete(Long aLong) {
         postRepository.deleteById(aLong);
     }
