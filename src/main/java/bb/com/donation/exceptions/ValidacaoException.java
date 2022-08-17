@@ -1,7 +1,6 @@
 package bb.com.donation.exceptions;
 
 
-import lombok.Getter;
 
 
 public class ValidacaoException extends RuntimeException {

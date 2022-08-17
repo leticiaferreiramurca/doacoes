@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.bind.ValidationException;
 import java.util.List;
 
 @RestController
@@ -26,8 +27,14 @@ public class PostController {
 
     @PostMapping()
     @Operation(summary = "Save Post", tags = {"Posts"})
-    public Post save(PostSaveDTO postSaveDTO) {
-        return postService.save(postSaveDTO);
+    public ResponseEntity<Post> save(PostSaveDTO postSaveDTO)  {
+        try {
+            Post post = postService.save (postSaveDTO);
+            return ResponseEntity.ok (post);
+        } catch (ValidationException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/{id}")

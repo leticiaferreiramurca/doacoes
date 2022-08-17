@@ -49,8 +49,9 @@ public class CommunityControlller {
 
     @PostMapping()
     @Operation(summary = "Save Community", tags = {"Comunidades"})
-    public Community save(@RequestBody @Valid CommunitySaveDTO communitySaveDTO) {
-        return communityService.save (communitySaveDTO);
+    public ResponseEntity<Community> save(@RequestBody @Valid CommunitySaveDTO communitySaveDTO) {
+        Community community = communityService.save (communitySaveDTO);
+        return ResponseEntity.ok (community);
     }
 
     @DeleteMapping("/{id}")
