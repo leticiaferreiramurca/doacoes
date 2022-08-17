@@ -4,6 +4,7 @@ import bb.com.donation.dto.post.PostSaveDTO;
 import bb.com.donation.model.Post;
 import bb.com.donation.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@Tag(name = "Posts", description = "Gerenciamento dos Posts")
 @RequestMapping("/post")
 public class PostController {
     final PostService postService;
@@ -27,6 +29,16 @@ public class PostController {
         return postService.save(postSaveDTO);
     }
 
+    @PostMapping("/{id}")
+    @Operation(summary = "Edit Post. 1 - to change name; 2 - to change description")
+    public ResponseEntity<Post> edit(Long postID, Integer opcao, String text) {
+        try {
+            return ResponseEntity.ok (postService.edit(postID, opcao, text));
+        }catch (Exception e){
+            log.error (e.getMessage ());
+            return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).build ();
+        }
+    }
 
     @GetMapping()
     @Operation(summary = "List All Posts")
