@@ -1,8 +1,16 @@
 package bb.com.donation.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "message")
 public class Message {
     @Id
@@ -18,38 +26,35 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "person_to_id")
-    private Person person_to;
+    @JsonManagedReference(value = "message_person")
+    private Person personTo;
 
     @ManyToOne
+    @JsonManagedReference(value = "message_person")
     @JoinColumn(name = "person_by_id")
-    private Person person_by;
+    private Person personBy;
 
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "last_message_id")
-    private Message lastMessage;
+//    @JsonManagedReference(value = "message_message")
+//    @OneToOne(orphanRemoval = true)
+//    @JoinColumn(name = "last_message_id", nullable = true)
+//    @Fetch (FetchMode.JOIN)
+    private Long lastMessage;
 
-    public Message getLastMessage() {
-        return lastMessage;
+
+    public Person getPersonBy() {
+        return personBy;
     }
 
-    public void setLastMessage(Message lastMessage) {
-        this.lastMessage = lastMessage;
+    public void setPersonBy(Person person_by) {
+        this.personBy = person_by;
     }
 
-    public Person getPerson_by() {
-        return person_by;
+    public Person getPersonTo() {
+        return personTo;
     }
 
-    public void setPerson_by(Person person_by) {
-        this.person_by = person_by;
-    }
-
-    public Person getPerson_to() {
-        return person_to;
-    }
-
-    public void setPerson_to(Person person_to) {
-        this.person_to = person_to;
+    public void setPersonTo(Person person_to) {
+        this.personTo = person_to;
     }
 
     public String getBodyMessage() {

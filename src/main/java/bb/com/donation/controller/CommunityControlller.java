@@ -3,7 +3,6 @@ package bb.com.donation.controller;
 
 import bb.com.donation.dto.community.CommunitySaveDTO;
 import bb.com.donation.model.Community;
-import bb.com.donation.model.Person;
 import bb.com.donation.service.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -25,6 +23,8 @@ import java.util.Optional;
 public class CommunityControlller {
 
     private final CommunityService communityService;
+
+
 
     public CommunityControlller(CommunityService communityService) {
         this.communityService = communityService;

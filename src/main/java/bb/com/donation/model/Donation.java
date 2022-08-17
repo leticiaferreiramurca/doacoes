@@ -1,5 +1,7 @@
 package bb.com.donation.model;
 
+import bb.com.donation.enums.ConditionType;
+import bb.com.donation.enums.DonationStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -36,18 +38,21 @@ public class Donation {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+    @Column(name = "donation_status", nullable = false)
+    private DonationStatus donationStatus;
+
     @JsonBackReference(value = "donation_person")
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false,fetch = FetchType.EAGER, targetEntity = Person.class)
     @JoinColumn(name = "person_owner_id", nullable = false)
     private Person personOwner;
 
 
 
-    @OneToMany(mappedBy = "donation_Requests", orphanRemoval = true)
-    private Set<Person> personsInterested = new LinkedHashSet<> ();
+
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "last_message_id")
+    @JsonBackReference(value = "donation_message")
     private Message lastMessage;
 
     @JsonManagedReference(value = "donation_product")
@@ -55,6 +60,11 @@ public class Donation {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "donation_person_interested",
+            joinColumns = @JoinColumn(name = "donation_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_interested_id"))
+    private Set<Person> personInterested = new LinkedHashSet<> ();
 
     @Override
     public boolean equals(Object o) {

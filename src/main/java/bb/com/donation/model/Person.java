@@ -1,8 +1,11 @@
 package bb.com.donation.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -33,15 +36,25 @@ public class Person {
     @OneToMany(mappedBy = "personOwner", orphanRemoval = true)
     private Set<Donation> donations = new LinkedHashSet<> ();
 
-    @JsonManagedReference(value = "person_product")
+//    @JsonManagedReference(value = "person_product")
     @OneToMany(mappedBy = "person", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @Fetch (FetchMode.SUBSELECT)
     private Set<Product> products = new LinkedHashSet<> ();
 
 
 //    @JsonManagedReference(value = "person_message")
     @ManyToOne
+    @JsonBackReference(value = "person_message")
     @JoinColumn(name = "donation_requests_id")
     private Donation donation_Requests;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "donation_id")
+    private Donation donation;
+
+    @ManyToOne
+    @JoinColumn(name = "donation_Interessed_id")
+    private Donation donation_Interessed;
 
 
     @Override

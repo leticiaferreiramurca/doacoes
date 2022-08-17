@@ -4,5 +4,4 @@ public enum ConditionType {
     NEW,
     USED,
     REFURBISHED
-
 }
