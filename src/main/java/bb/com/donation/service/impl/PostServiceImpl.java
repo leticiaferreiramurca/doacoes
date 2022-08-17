@@ -1,74 +1,56 @@
 package bb.com.donation.service.impl;
 
-import bb.com.donation.dto.product.ProductGenericDTO;
-import bb.com.donation.exceptions.ValidacaoException;
-import bb.com.donation.model.Person;
-import bb.com.donation.model.Product;
-import bb.com.donation.repository.ProductRepository;
-import bb.com.donation.service.ProductService;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import bb.com.donation.dto.post.PostGenericDTO;
+import bb.com.donation.model.Post;
+import bb.com.donation.repository.PostRepository;
+import bb.com.donation.service.PostService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-
 @Service
-public class ProductServiceImp implements ProductService {
+public class PostServiceImpl implements PostService {
 
-    ProductRepository productRepository;
+    PostRepository postRepository;
 
-    public ProductServiceImp(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
-
-
-    @Override
-    public Product save(ProductGenericDTO productGenericDTO) {
-        return productRepository.save(productGenericDTO.toProduct());
+    public PostServiceImpl(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
     @Override
-    public Product getById(Long id) {
-        return productRepository.findById (id).orElseThrow (() -> new ValidacaoException("Produto não encontrado"));
+    public Post save(PostGenericDTO postGenericDTO) {
+        Post post = postGenericDTO.toPost();
+        post.setId (null);
+        return postRepository.save(post);
     }
-
     @Override
-    public List<Product> getAll() {
-        return productRepository.findAll ();
-    }
-
-    @Override
-    public void delete(Long id) {
-        Product product = getById(id);
-        if(product.getDonation() == null && product.getPost() == null){
-            productRepository.deleteById (id);
-        } else {
-            throw new ValidacaoException("Não é possível deletar o produto que possui " +
-                    "um post ou uma doação.");
+    public Post edit(Long postID,Integer option, String text) throws Exception {
+        Post post = getById(postID);
+        switch (option){
+            case 1:
+                post.setName(text);
+                break;
+            case 2:
+                post.setDescription(text);
+                break;
+            default:
+                throw new Exception("Opção Inválida");
         }
+        return postRepository.save(post);
     }
 
     @Override
-    public Page<Product> filtrar(String filtro, Pageable pageable) {
-        final Product productFiltro = new Product();
-        productFiltro.setName(filtro);
-
-        final ExampleMatcher exampleMatcher =
-                ExampleMatcher
-                        .matchingAny()
-                        .withIgnoreCase()
-                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-
-        final Example<Product> productExample = Example.of(productFiltro, exampleMatcher);
-
-        return productRepository.findAll(productExample, pageable);
+    public Post getById(Long aLong) {
+        return postRepository.findById(aLong).orElse(null);
     }
 
     @Override
-    public List<Product> findAll() {
-        return productRepository.findAll ();
+    public List<Post> getAll() {
+        return postRepository.findAll();
+    }
+
+    @Override
+    public void delete(Long aLong) {
+        postRepository.deleteById(aLong);
     }
 }
