@@ -1,9 +1,7 @@
 package bb.com.donation.dto.post;
 
 import bb.com.donation.model.Donation;
-import bb.com.donation.model.Person;
 import bb.com.donation.model.Post;
-import bb.com.donation.model.Product;
 import lombok.Getter;
 import lombok.Setter;
 

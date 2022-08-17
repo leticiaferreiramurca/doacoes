@@ -2,7 +2,6 @@ package bb.com.donation.service.impl;
 
 import bb.com.donation.dto.product.ProductGenericDTO;
 import bb.com.donation.exceptions.ValidacaoException;
-import bb.com.donation.model.Person;
 import bb.com.donation.model.Product;
 import bb.com.donation.repository.ProductRepository;
 import bb.com.donation.service.ProductService;

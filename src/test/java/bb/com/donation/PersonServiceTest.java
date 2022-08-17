@@ -13,8 +13,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class PersonServiceTest {
 
     @Autowired
-    private PersonController personRepository;
-    @Autowired
     private PersonController personController;
 
     @Test
@@ -29,7 +27,7 @@ class PersonServiceTest {
     @Test
     void getPersonsTest() {
 
-        Person newPerson = new Person( ).builder ().id ( 1L ).name ( "Igor" ).build ();
+        Person newPerson = new Person().builder ().id ( 1L ).name ( "Igor" ).build ();
 
         personController.save(new PersonSaveDTO (newPerson.getName ()));
         assertThat(personController.getById(1L).getBody().getName())
@@ -52,7 +50,8 @@ class PersonServiceTest {
     @Test
     void deletePersonTest() {
 
-        Person newPerson = new Person().builder().id(1L).name("Igor").build();
+        new Person ();
+        Person newPerson = Person.builder ().id(1L).name("Igor").build();
         Person savedPerson = personController.save( new PersonSaveDTO (newPerson.getName ())).getBody ();
 
         personController.delete(savedPerson.getId());

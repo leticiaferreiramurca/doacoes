@@ -2,7 +2,6 @@ package bb.com.donation.service.impl;
 
 import bb.com.donation.dto.community.CommunitySaveDTO;
 import bb.com.donation.model.Community;
-import bb.com.donation.model.Person;
 import bb.com.donation.repository.CommunityRepository;
 import bb.com.donation.service.CommunityService;
 import org.springframework.data.domain.Example;
@@ -18,11 +17,9 @@ import java.util.Objects;
 public class CommunityServiceImp implements CommunityService {
 
     private final  CommunityRepository communityRepository;
-    private final  PersonServiceImp personServiceImp;
 
-    public CommunityServiceImp(CommunityRepository communityRepository, PersonServiceImp personServiceImp) {
+    public CommunityServiceImp(CommunityRepository communityRepository) {
         this.communityRepository = communityRepository;
-        this.personServiceImp = personServiceImp;
     }
 
 

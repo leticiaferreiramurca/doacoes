@@ -1,7 +1,6 @@
 package bb.com.donation.dto.community;
 
 import bb.com.donation.model.Community;
-import bb.com.donation.model.Person;
 import lombok.*;
 
 @Getter
