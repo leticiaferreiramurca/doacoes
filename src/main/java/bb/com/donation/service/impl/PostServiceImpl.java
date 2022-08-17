@@ -4,6 +4,7 @@ import bb.com.donation.dto.post.PostGenericDTO;
 import bb.com.donation.model.Post;
 import bb.com.donation.repository.PostRepository;
 import bb.com.donation.service.PostService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,11 +41,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Cacheable("post")
     public Post getById(Long aLong) {
         return postRepository.findById(aLong).orElse(null);
     }
 
     @Override
+    @Cacheable("post")
     public List<Post> getAll() {
         return postRepository.findAll();
     }
