@@ -16,9 +16,11 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DonationServiceImp implements DonationService {
@@ -38,6 +40,7 @@ public class DonationServiceImp implements DonationService {
 
 
     @Override
+    @Transactional
     public Donation save(DonationSaveDTO donationSaveDTO) {
         Donation donationSearch = donationRepository.findByProductId(donationSaveDTO.getProductId());
         if (donationSearch != null) {
@@ -58,7 +61,6 @@ public class DonationServiceImp implements DonationService {
     }
 
     @Override
-    @Cacheable(value = "donation")
     public List<Donation> getAll() {
         return donationRepository.findAll();
     }
@@ -96,7 +98,7 @@ public class DonationServiceImp implements DonationService {
     public Page<Donation> getAllOrByDonationStatus(String donationStatusString, Pageable pageable) {
 
         DonationStatus donationStatus = DonationStatus.valueOf(donationStatusString);
-        if (donationStatusString.isBlank() || donationStatusString.isEmpty())
+        if (donationStatusString.isBlank() || donationStatusString.isEmpty() || Objects.isNull(donationStatusString))
             return donationRepository.findAll(pageable);
         return this.findByDonationStatus(donationStatus, pageable);
     }
@@ -127,6 +129,7 @@ public class DonationServiceImp implements DonationService {
         return donationRepository.save(donation);
     }
 
+    @Transactional
     public Donation setInterest(Long donationId, Long personID) {
 
         Donation donation = getById(donationId);
@@ -134,13 +137,13 @@ public class DonationServiceImp implements DonationService {
         if(donation == null) {
             throw new ValidacaoException(ErrorMessages.DONATION_NOT_FOUND);
         }
-        if((long) donation.getPersonsInterested ().size () >3) {
+        if((long) donation.getPersonInterested ().size () >3) {
             throw new ValidacaoException("Maximum of 3 persons");
         }
         if(personInterest == null) {
             throw new ValidacaoException(ErrorMessages.PERSON_NOT_FOUND);
         }
-        donation.getPersonsInterested ().add (personInterest);
+        donation.getPersonInterested ().add (personInterest);
         return donationRepository.save(donation);
     }
 
@@ -154,7 +157,7 @@ public class DonationServiceImp implements DonationService {
         if(personInterest == null) {
             throw new ValidacaoException(ErrorMessages.PERSON_NOT_FOUND);
         }
-        donation.getPersonsInterested ().remove (personInterest);
+        donation.getPersonInterested ().remove (personInterest);
         return donationRepository.save(donation);
     }
 

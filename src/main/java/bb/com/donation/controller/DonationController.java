@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -65,9 +64,9 @@ public class DonationController {
         return donationService.save(donation);
     }
 
-    @PutMapping("next-status/{id}/{status}" )
+    @PutMapping("next-status/{idDonation}/{status}" )
     @Operation(summary = "Change status of donation", description = "Change status of donation", tags = {"Donations"})
-    public ResponseEntity<Donation> changeStatus(@PathVariable @Valid Long id, @PathVariable @Valid String status) {
+    public ResponseEntity<Donation> changeStatus(@PathVariable() @Valid Long id, @PathVariable @Valid String status) {
                 return ResponseEntity.ok (donationService.changeStatus (id, status));
     }
 
@@ -87,7 +86,11 @@ public class DonationController {
     @Operation(summary = "Set interest of donation", description = "Set interest of donation", tags = {"Donations"})
     public ResponseEntity<Donation> setInterest(@RequestParam @Valid Long id, @RequestParam @Valid Long personId) {
         try {
-            return ResponseEntity.ok (donationService.setInterest (id, personId));
+            Donation donation = donationService.setInterest (id, personId);
+            if(donation.getPersonOwner ().getId ().equals (personId)) {
+                return ResponseEntity.status (HttpStatus.FORBIDDEN).build ();
+            }
+            return ResponseEntity.ok (donation);
         }catch (ValidacaoException e){
             return ResponseEntity.status (HttpStatus.BAD_REQUEST).build();
         } catch (Exception e){

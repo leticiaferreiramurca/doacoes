@@ -21,7 +21,6 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @Table(name = "donation")
-//TODO: implementar cache
 public class Donation {
 
 //    TODO: filtro por comunidade e inserir o campo comunidade_id na tabela donation
@@ -43,14 +42,13 @@ public class Donation {
     private DonationStatus donationStatus;
 
     @JsonBackReference(value = "donation_person")
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false,fetch = FetchType.EAGER, targetEntity = Person.class)
     @JoinColumn(name = "person_owner_id", nullable = false)
     private Person personOwner;
 
 
 
-    @OneToMany(mappedBy = "donation_Requests", orphanRemoval = true)
-    private Set<Person> personsInterested = new LinkedHashSet<> ();
+
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "last_message_id")
@@ -62,6 +60,11 @@ public class Donation {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "donation_person_interested",
+            joinColumns = @JoinColumn(name = "donation_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_interested_id"))
+    private Set<Person> personInterested = new LinkedHashSet<> ();
 
     @Override
     public boolean equals(Object o) {
