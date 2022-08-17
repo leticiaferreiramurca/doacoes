@@ -13,6 +13,8 @@ import java.util.List;
 public interface PostService extends GenericService<Post, Long, PostGenericDTO> {
     public Post save(PostGenericDTO postGenericDTO);
 
+    public Post edit(Long postID,Integer opcao, String text) throws Exception;
+
     public Post getById(Long aLong);
 
     public List<Post> getAll();
