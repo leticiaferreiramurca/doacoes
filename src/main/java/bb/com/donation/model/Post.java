@@ -29,8 +29,8 @@ public class Post {
     private String urlImg;
 
     @OneToOne(cascade = CascadeType.MERGE, orphanRemoval = true)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "donation_id")
+    private Donation donation;
 
     @Override
     public boolean equals(Object o) {
