@@ -1,10 +1,12 @@
 package bb.com.donation.controller;
 
 import bb.com.donation.dto.message.MessageDto;
+import bb.com.donation.dto.message.MessageSaveDTO;
 import bb.com.donation.exceptions.ValidacaoException;
 import bb.com.donation.model.Message;
 import bb.com.donation.service.MessageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,11 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/message")
+@Tag (name = "Message Endpoint", description = "Message")
 public class MessageController {
 
     private final MessageService messageService;
+
 
     private final ModelMapper modelMapper;
 
@@ -36,10 +40,11 @@ public class MessageController {
 
     @PostMapping()
     @Operation(summary = "Save Message", tags = {"Messages"})
-    public ResponseEntity<MessageDto> save(@RequestBody @Valid MessageDto message) {
+    public ResponseEntity<MessageDto> save(@RequestBody @Valid MessageSaveDTO message) {
 
         try {
-            Message messageSaved = messageService.save (message);
+            MessageDto messageToSaveDTO = modelMapper.map(message, MessageDto.class);
+            Message messageSaved = messageService.save (messageToSaveDTO);
             MessageDto messageDto = MessageDto.builder()
                     .id (messageSaved.getId ())
                     .subject (messageSaved.getSubject ())
@@ -56,7 +61,7 @@ public class MessageController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get Message by ID")
+    @Operation(summary = "Get Message by ID", tags = {"Messages"})
     public ResponseEntity<MessageDto> getById(@PathVariable @Valid Long id) {
         MessageDto messageDto = convertToDto (messageService.getById (id));
         return ResponseEntity.ok (messageDto);
@@ -70,8 +75,7 @@ public class MessageController {
     }
 
     private MessageDto convertToDto(Message message) {
-        MessageDto messageDto = modelMapper.map (message, MessageDto.class);
-        return messageDto;
+        return modelMapper.map (message, MessageDto.class);
     }
 
 

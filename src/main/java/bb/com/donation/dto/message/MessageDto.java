@@ -11,16 +11,17 @@ import java.io.Serializable;
 @Setter
 @Builder
 public class MessageDto implements Serializable {
-    private final Long id;
-    private final String subject;
-    private final String bodyMessage;
-    private final Long personTo;
-    private final Long personBy;
-    private final Long lastMessage;
+    private Long id;
+    private String subject;
+    private String bodyMessage;
+    private Long personTo;
+    private Long personBy;
+    private Long lastMessage;
 
-    private final Long donationId;
+    private Long donationId;
 
 
+    public MessageDto(){}
     public MessageDto(Long id, String subject, String bodyMessage, Long personBy, Long personTo, Long lastMessage, Long donationId){
         this.id = id;
         this.subject = subject;
@@ -29,14 +30,5 @@ public class MessageDto implements Serializable {
         this.personTo = personTo;
         this.lastMessage = lastMessage;
         this.donationId = donationId;
-    }
-    public Message toMessage() {
-        return Message.builder()
-                .subject(subject)
-                .bodyMessage(bodyMessage)
-                .personTo (Person.builder().id (personTo).build())
-                .personBy (Person.builder().id (personBy).build())
-                .lastMessage(lastMessage)
-                .build();
     }
 }

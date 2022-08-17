@@ -48,6 +48,14 @@ public class Person {
     @JoinColumn(name = "donation_requests_id")
     private Donation donation_Requests;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "donation_id")
+    private Donation donation;
+
+    @ManyToOne
+    @JoinColumn(name = "donation_Interessed_id")
+    private Donation donation_Interessed;
+
 
     @Override
     public boolean equals(Object o) {
